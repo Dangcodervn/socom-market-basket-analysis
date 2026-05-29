@@ -1,0 +1,20 @@
+# Word / Excel temp files (created when file is open)
+~$*
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated data (can be re-created by running the notebook)
+Cleaned_Data/
+
+# Raw data — contains customer PII, do not commit to public repo
+Raw Data/
+
+# OS files
+.DS_Store
+Thumbs.db
