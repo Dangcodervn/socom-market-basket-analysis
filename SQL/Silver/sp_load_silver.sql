@@ -63,6 +63,9 @@ BEGIN
                 shipping_fee     DECIMAL(18,2)
             );
 
+        -- Dùng ROW_NUMBER() để dedup theo (order_id, product_name):
+        -- 1 đơn hàng chỉ được có 1 dòng cho mỗi sản phẩm
+        -- Giữ dòng có revenue cao nhất; nếu bằng nhau thì lấy bất kỳ
         INSERT INTO silver.Transaction_Data (
             manufacturer, customer, customer_email,
             [date], order_year, order_month, order_quarter,
@@ -73,31 +76,46 @@ BEGIN
             amount_received, quantity, shipping_fee
         )
         SELECT
-            LTRIM(RTRIM(manufacturer)),
-            LTRIM(RTRIM(customer)),
-            LTRIM(RTRIM(customer_email)),
-            [date],
-            YEAR([date])               AS order_year,
-            MONTH([date])              AS order_month,
-            DATEPART(QUARTER, [date])  AS order_quarter,
-            LTRIM(RTRIM(traffic_source)),
-            LTRIM(RTRIM(branch)),
-            LTRIM(RTRIM(product_category)),
-            LTRIM(RTRIM(province)),
-            order_id,
-            LTRIM(RTRIM(product_name)),
-            LTRIM(RTRIM(district)),
-            LTRIM(RTRIM(version)),
-            LTRIM(RTRIM(order_status)),
-            LTRIM(RTRIM(payment_method)),
-            CAST(ISNULL(revenue, 0)         AS DECIMAL(18,2)),
-            CAST(ISNULL(discount_amount, 0) AS DECIMAL(18,2)),
-            CAST(ISNULL(total_invoice, 0)   AS DECIMAL(18,2)),
-            CAST(ISNULL(amount_received, 0) AS DECIMAL(18,2)),
-            ISNULL(quantity, 0),
-            CAST(ISNULL(shipping_fee, 0)    AS DECIMAL(18,2))
-        FROM bronze.Transaction_Data
-        WHERE order_id IS NOT NULL;
+            manufacturer, customer, customer_email,
+            [date], order_year, order_month, order_quarter,
+            traffic_source, branch, product_category,
+            province, order_id, product_name, district,
+            version, order_status, payment_method,
+            revenue, discount_amount, total_invoice,
+            amount_received, quantity, shipping_fee
+        FROM (
+            SELECT
+                LTRIM(RTRIM(manufacturer))              AS manufacturer,
+                LTRIM(RTRIM(customer))                  AS customer,
+                LTRIM(RTRIM(customer_email))            AS customer_email,
+                [date],
+                YEAR([date])                            AS order_year,
+                MONTH([date])                           AS order_month,
+                DATEPART(QUARTER, [date])               AS order_quarter,
+                LTRIM(RTRIM(traffic_source))            AS traffic_source,
+                LTRIM(RTRIM(branch))                    AS branch,
+                LTRIM(RTRIM(product_category))          AS product_category,
+                LTRIM(RTRIM(province))                  AS province,
+                order_id,
+                LTRIM(RTRIM(product_name))              AS product_name,
+                LTRIM(RTRIM(district))                  AS district,
+                LTRIM(RTRIM(version))                   AS version,
+                LTRIM(RTRIM(order_status))              AS order_status,
+                LTRIM(RTRIM(payment_method))            AS payment_method,
+                CAST(ISNULL(revenue, 0)         AS DECIMAL(18,2)) AS revenue,
+                CAST(ISNULL(discount_amount, 0) AS DECIMAL(18,2)) AS discount_amount,
+                CAST(ISNULL(total_invoice, 0)   AS DECIMAL(18,2)) AS total_invoice,
+                CAST(ISNULL(amount_received, 0) AS DECIMAL(18,2)) AS amount_received,
+                ISNULL(quantity, 0)                     AS quantity,
+                CAST(ISNULL(shipping_fee, 0)    AS DECIMAL(18,2)) AS shipping_fee,
+                ROW_NUMBER() OVER (
+                    PARTITION BY order_id, LTRIM(RTRIM(product_name))
+                    ORDER BY ISNULL(revenue, 0) DESC
+                ) AS rn
+            FROM bronze.Transaction_Data
+            WHERE order_id IS NOT NULL
+        ) AS cleaned
+        WHERE rn = 1;
 
         SET @rowcount = @@ROWCOUNT;
         PRINT '   silver.Transaction_Data: ' + CAST(@rowcount AS VARCHAR) + ' rows';
