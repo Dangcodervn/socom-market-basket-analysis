@@ -138,10 +138,3 @@ Order_Products  (Subset của Fact_Transaction — dùng cho MBA)
 | Python / Pandas    | Tiền xử lý dữ liệu thô             |
 | Jupyter Notebook   | ETL pipeline Python                |
 | Git / GitHub       | Version control                    |
-
----
-
-## Tác giả
-
-**Tran Hoang Long** — Data Analyst  
-GitHub: [Dangcodervn/socom-market-basket-analysis](https://github.com/Dangcodervn/socom-market-basket-analysis)

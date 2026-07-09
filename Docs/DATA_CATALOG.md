@@ -103,7 +103,8 @@ Transformation: LTRIM/RTRIM, CAST, lọc NULL, loại duplicate theo `(order_id,
 
 ## GOLD LAYER
 
-**Chỉ có Views** — không load dữ liệu. Tự cập nhật khi Silver thay đổi.
+**Chỉ có Views** — không load dữ liệu. Tự cập nhật khi Silver thay đổi.  
+**Data Model: Snowflake Schema (3NF)** — Tất cả Dim có surrogate key INT; Fact chỉ lưu FK IDs + measures.
 
 ### DIMENSION VIEWS
 
@@ -128,71 +129,84 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 #### `gold.Dim_Customer`
 
-| Cột                 | Mô tả            |
-| ------------------- | ---------------- |
-| customer_email (PK) | Email khách hàng |
-| customer_name       | Tên khách hàng   |
+| Cột                  | Mô tả                                         |
+| -------------------- | --------------------------------------------- |
+| **customer_id** (PK) | Surrogate key INT (ROW_NUMBER ORDER BY email) |
+| customer_email       | Email khách hàng                              |
+| customer_name        | Tên khách hàng                                |
 
 ---
 
 #### `gold.Dim_Product`
 
-| Cột               | Mô tả                                    |
-| ----------------- | ---------------------------------------- |
-| product_name (PK) | Tên sản phẩm                             |
-| category_name     | Danh mục                                 |
-| manufacturer_name | Nhà sản xuất                             |
-| avg_price         | Giá trung bình = AVG(revenue / quantity) |
+**Granularity = SKU: `(product_name, version)`**
+
+| Cột                                         | Mô tả                                    |
+| ------------------------------------------- | ---------------------------------------- |
+| **product_id** (PK)                         | Surrogate key INT                        |
+| product_name                                | Tên sản phẩm                             |
+| version                                     | Phiên bản / dung tích (thuộc tính SKU)   |
+| **category_id** (FK → Dim_Category)         | ID danh mục (3NF, bỏ category_name thừa) |
+| **manufacturer_id** (FK → Dim_Manufacturer) | ID nhà sản xuất (3NF)                    |
+| avg_price                                   | Giá trung bình = AVG(revenue / quantity) |
+
+> Mỗi `(product_name, version)` → 1 dòng duy nhất. Category/Manufacturer chọn theo nhóm xuất hiện nhiều nhất.
 
 ---
 
 #### `gold.Dim_Category`
 
-| Cột                | Mô tả                 |
-| ------------------ | --------------------- |
-| category_name (PK) | Tên danh mục sản phẩm |
+| Cột                  | Mô tả                 |
+| -------------------- | --------------------- |
+| **category_id** (PK) | Surrogate key INT     |
+| category_name        | Tên danh mục sản phẩm |
 
 ---
 
 #### `gold.Dim_Manufacturer`
 
-| Cột                    | Mô tả                              |
-| ---------------------- | ---------------------------------- |
-| manufacturer_name (PK) | Tên nhà sản xuất (bỏ giá trị '--') |
+| Cột                      | Mô tả                              |
+| ------------------------ | ---------------------------------- |
+| **manufacturer_id** (PK) | Surrogate key INT                  |
+| manufacturer_name        | Tên nhà sản xuất (bỏ giá trị '--') |
 
 ---
 
 #### `gold.Dim_Region`
 
-| Cột              | Mô tả                             |
-| ---------------- | --------------------------------- |
-| region_name (PK) | Vùng địa lý (parse từ cột branch) |
+| Cột                | Mô tả                             |
+| ------------------ | --------------------------------- |
+| **region_id** (PK) | Surrogate key INT                 |
+| region_name        | Vùng địa lý (parse từ cột branch) |
 
 ---
 
 #### `gold.Dim_Province`
 
-| Cột                | Mô tả          |
-| ------------------ | -------------- |
-| province_name (PK) | Tỉnh/Thành phố |
-| region_name (FK)   | Vùng địa lý    |
+| Cột                             | Mô tả                |
+| ------------------------------- | -------------------- |
+| **province_id** (PK)            | Surrogate key INT    |
+| province_name                   | Tỉnh/Thành phố       |
+| **region_id** (FK → Dim_Region) | Vùng địa lý (3NF FK) |
 
 ---
 
 #### `gold.Dim_District`
 
-| Cột                | Mô tả          |
-| ------------------ | -------------- |
-| district_name (PK) | Quận/Huyện     |
-| province_name (FK) | Tỉnh/Thành phố |
+| Cột                                 | Mô tả                   |
+| ----------------------------------- | ----------------------- |
+| **district_id** (PK)                | Surrogate key INT       |
+| district_name                       | Quận/Huyện              |
+| **province_id** (FK → Dim_Province) | Tỉnh/Thành phố (3NF FK) |
 
 ---
 
 #### `gold.Dim_Gift`
 
-| Cột            | Mô tả        |
-| -------------- | ------------ |
-| gift_name (PK) | Tên quà tặng |
+| Cột              | Mô tả             |
+| ---------------- | ----------------- |
+| **gift_id** (PK) | Surrogate key INT |
+| gift_name        | Tên quà tặng      |
 
 > Tách riêng khỏi `Dim_Product` vì 91.7% gift_name không khớp với product_name (quà là hàng mini/sample và phụ kiện).
 
@@ -200,50 +214,47 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 ### FACT VIEWS
 
-#### `gold.Fact_Transaction`
+#### `gold.Dim_Order`
 
-Bảng trung tâm của Star Schema. JOIN `silver.Transaction_Data` + `silver.Shipping_Data`.
+**Grain = 1 đơn hàng.** Chứa tất cả order-level attributes. Xác nhận: `traffic_source`, `order_status`, `payment_method` không thay đổi trong cùng 1 `order_id`.
 
-| Cột                                       | Mô tả                                       |
-| ----------------------------------------- | ------------------------------------------- |
-| order_id                                  | Mã đơn hàng                                 |
-| **date_id** (FK → Dim_Date)               | Surrogate key ngày                          |
-| date                                      | Ngày đặt hàng                               |
-| order_year / order_month / order_quarter  | Thời gian                                   |
-| customer_email (FK → Dim_Customer)        | Email khách hàng                            |
-| customer_name                             | Tên khách hàng                              |
-| product_name (FK → Dim_Product)           | Tên sản phẩm                                |
-| category_name (FK → Dim_Category)         | Danh mục                                    |
-| manufacturer_name (FK → Dim_Manufacturer) | Nhà sản xuất                                |
-| district / province / branch              | Địa lý                                      |
-| traffic_source                            | Kênh bán hàng                               |
-| order_status                              | Trạng thái đơn                              |
-| payment_method                            | Phương thức thanh toán                      |
-| version                                   | Phiên bản sản phẩm                          |
-| quantity                                  | Số lượng                                    |
-| revenue                                   | Doanh thu                                   |
-| discount_amount                           | Giảm giá                                    |
-| total_invoice                             | Tổng hóa đơn                                |
-| amount_received                           | Thực nhận                                   |
-| shipping_fee                              | Phí vận chuyển (từ Shipping_Data, NULL → 0) |
+| Cột                                 | Mô tả                             |
+| ----------------------------------- | --------------------------------- |
+| order_id (PK tự nhiên)              | Mã đơn hàng                       |
+| **date_id** (FK → Dim_Date)         | Surrogate key ngày (INT yyyyMMdd) |
+| **customer_id** (FK → Dim_Customer) | Surrogate key khách hàng          |
+| **district_id** (FK → Dim_District) | Surrogate key quận/huyện          |
+| traffic_source                      | Kênh bán hàng                     |
+| order_status                        | Trạng thái đơn                    |
+| payment_method                      | Phương thức thanh toán            |
+
+---
+
+#### `gold.Fact_OrderLine`
+
+**Grain = 1 sản phẩm / 1 đơn hàng.** Chỉ có 2 FK + 4 measures — grain sạch hoàn toàn.
+
+| Cột                               | Mô tả                        |
+| --------------------------------- | ---------------------------- |
+| **order_id** (FK → Dim_Order)     | Mã đơn hàng                  |
+| **product_id** (FK → Dim_Product) | Surrogate key sản phẩm (SKU) |
+| quantity                          | Số lượng                     |
+| revenue                           | Doanh thu (per line-item)    |
+| discount_amount                   | Giảm giá (per line-item)     |
+| amount_received                   | Thực nhận (per line-item)    |
+
+> **Bỏ khỏi Fact_OrderLine (3NF):** `date_id`, `customer_id`, `district_id`, `traffic_source`, `order_status`, `payment_method` → lấy qua `Dim_Order`; `total_invoice` → derivable (`revenue + discount_amount`); `shipping_fee` → bỏ (coverage 35.8%, grain sai).
 
 ---
 
 #### `gold.Fact_Gift`
 
-Map đơn hàng ↔ quà tặng.
+Map đơn hàng ↔ quà tặng. **Chỉ giữ 2 FK IDs (3NF thuần)** — date / customer / status lấy qua `Fact_Gift → Dim_Order`.
 
-| Cột                              | Mô tả              |
-| -------------------------------- | ------------------ |
-| order_id (FK → Fact_Transaction) | Mã đơn hàng        |
-| gift_name (FK → Dim_Gift)        | Tên quà tặng       |
-| **date_id** (FK → Dim_Date)      | Surrogate key ngày |
-| date                             | Ngày               |
-| order_year / order_month         | Thời gian          |
-| customer_email                   | Email khách hàng   |
-| traffic_source                   | Kênh bán hàng      |
-| branch                           | Chi nhánh          |
-| order_status                     | Trạng thái đơn     |
+| Cột                         | Mô tả                  |
+| --------------------------- | ---------------------- |
+| order_id (FK → Dim_Order)   | Mã đơn hàng            |
+| **gift_id** (FK → Dim_Gift) | Surrogate key quà tặng |
 
 ---
 
@@ -251,7 +262,7 @@ Map đơn hàng ↔ quà tặng.
 
 #### `gold.Order_Products`
 
-Subset của `Fact_Transaction` dùng cho **Market Basket Analysis**.  
+Subset của `Fact_OrderLine` dùng cho **Market Basket Analysis**.  
 Chỉ gồm đơn hàng **không bị hủy/hoàn trả** (`order_status NOT IN ('Đã hủy', 'Hoàn hàng')`).
 
 | Cột               | Mô tả        |
@@ -268,16 +279,17 @@ Chỉ gồm đơn hàng **không bị hủy/hoàn trả** (`order_status NOT IN 
 
 ## Quan hệ giữa các bảng (Join Keys)
 
-| Từ               | Đến              | Key                          |
-| ---------------- | ---------------- | ---------------------------- |
-| Fact_Transaction | Dim_Date         | `date_id`                    |
-| Fact_Transaction | Dim_Customer     | `customer_email`             |
-| Fact_Transaction | Dim_Product      | `product_name`               |
-| Fact_Transaction | Dim_Category     | `category_name`              |
-| Fact_Transaction | Dim_Manufacturer | `manufacturer_name`          |
-| Fact_Gift        | Dim_Gift         | `gift_name`                  |
-| Fact_Gift        | Dim_Date         | `date_id`                    |
-| Fact_Gift        | Fact_Transaction | `order_id`                   |
-| Dim_Province     | Dim_Region       | `region_name`                |
-| Dim_District     | Dim_Province     | `province_name`              |
-| Order_Products   | Fact_Transaction | subset (không join, là view) |
+| Từ             | Đến              | Key                         |
+| -------------- | ---------------- | --------------------------- |
+| Dim_Order      | Dim_Date         | `date_id`                   |
+| Dim_Order      | Dim_Customer     | `customer_id`               |
+| Dim_Order      | Dim_District     | `district_id`               |
+| Dim_District   | Dim_Province     | `province_id`               |
+| Dim_Province   | Dim_Region       | `region_id`                 |
+| Fact_OrderLine | Dim_Order        | `order_id`                  |
+| Fact_OrderLine | Dim_Product      | `product_id`                |
+| Dim_Product    | Dim_Category     | `category_id`               |
+| Dim_Product    | Dim_Manufacturer | `manufacturer_id`           |
+| Fact_Gift      | Dim_Order        | `order_id`                  |
+| Fact_Gift      | Dim_Gift         | `gift_id`                   |
+| Order_Products | Fact_OrderLine   | subset (JOIN qua Dim_Order) |

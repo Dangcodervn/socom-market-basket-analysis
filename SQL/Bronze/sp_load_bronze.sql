@@ -22,36 +22,18 @@ BEGIN
 
     BEGIN TRY
 
+        -- DDL tách riêng: SQL/Bronze/ddl_bronze_tables.sql
+        IF OBJECT_ID('bronze.Transaction_Data', 'U') IS NULL
+           OR OBJECT_ID('bronze.Gift_Data', 'U') IS NULL
+           OR OBJECT_ID('bronze.Shipping_Data', 'U') IS NULL
+        BEGIN
+            THROW 51001, 'Bronze tables are missing. Run SQL/Bronze/ddl_bronze_tables.sql first.', 1;
+        END
+
         -- ------------------------------------------------
         -- 1. Transaction_Data
         -- ------------------------------------------------
         PRINT '>> Loading bronze.Transaction_Data...';
-
-        IF OBJECT_ID('bronze.Transaction_Data', 'U') IS NULL
-        BEGIN
-            CREATE TABLE bronze.Transaction_Data (
-                manufacturer     NVARCHAR(255),
-                customer         NVARCHAR(255),
-                customer_email   NVARCHAR(255),
-                [date]           DATE,
-                traffic_source   NVARCHAR(100),
-                branch           NVARCHAR(100),
-                product_category NVARCHAR(100),
-                province         NVARCHAR(100),
-                order_id         INT,
-                product_name     NVARCHAR(255),
-                district         NVARCHAR(100),
-                version          NVARCHAR(100),
-                order_status     NVARCHAR(100),
-                payment_method   NVARCHAR(100),
-                revenue          INT,
-                discount_amount  FLOAT,
-                total_invoice    FLOAT,
-                amount_received  FLOAT,
-                quantity         INT,
-                shipping_fee     INT
-            );
-        END
 
         TRUNCATE TABLE bronze.Transaction_Data;
 
@@ -73,14 +55,6 @@ BEGIN
         -- ------------------------------------------------
         PRINT '>> Loading bronze.Gift_Data...';
 
-        IF OBJECT_ID('bronze.Gift_Data', 'U') IS NULL
-        BEGIN
-            CREATE TABLE bronze.Gift_Data (
-                order_id  INT           NOT NULL,
-                gift_name NVARCHAR(255) NOT NULL
-            );
-        END
-
         TRUNCATE TABLE bronze.Gift_Data;
 
         BULK INSERT bronze.Gift_Data
@@ -100,14 +74,6 @@ BEGIN
         -- 3. Shipping_Data
         -- ------------------------------------------------
         PRINT '>> Loading bronze.Shipping_Data...';
-
-        IF OBJECT_ID('bronze.Shipping_Data', 'U') IS NULL
-        BEGIN
-            CREATE TABLE bronze.Shipping_Data (
-                order_id     INT NOT NULL,
-                shipping_fee INT NOT NULL
-            );
-        END
 
         TRUNCATE TABLE bronze.Shipping_Data;
 

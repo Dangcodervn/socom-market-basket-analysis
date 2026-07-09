@@ -24,6 +24,14 @@ BEGIN
 
     BEGIN TRY
 
+        -- DDL tách riêng: SQL/Silver/ddl_silver_tables.sql
+        IF OBJECT_ID('silver.Transaction_Data', 'U') IS NULL
+           OR OBJECT_ID('silver.Gift_Data', 'U') IS NULL
+           OR OBJECT_ID('silver.Shipping_Data', 'U') IS NULL
+        BEGIN
+            THROW 51002, 'Silver tables are missing. Run SQL/Silver/ddl_silver_tables.sql first.', 1;
+        END
+
         -- ------------------------------------------------
         -- 1. silver.Transaction_Data
         --    Transformations:
@@ -34,34 +42,7 @@ BEGIN
         -- ------------------------------------------------
         PRINT '>> Building silver.Transaction_Data...';
 
-        IF OBJECT_ID('silver.Transaction_Data', 'U') IS NOT NULL
-            TRUNCATE TABLE silver.Transaction_Data;
-        ELSE
-            CREATE TABLE silver.Transaction_Data (
-                manufacturer     NVARCHAR(255),
-                customer         NVARCHAR(255),
-                customer_email   NVARCHAR(255),
-                [date]           DATE,
-                order_year       INT,
-                order_month      INT,
-                order_quarter    INT,
-                traffic_source   NVARCHAR(100),
-                branch           NVARCHAR(100),
-                product_category NVARCHAR(100),
-                province         NVARCHAR(100),
-                order_id         INT,
-                product_name     NVARCHAR(255),
-                district         NVARCHAR(100),
-                version          NVARCHAR(100),
-                order_status     NVARCHAR(100),
-                payment_method   NVARCHAR(100),
-                revenue          DECIMAL(18,2),
-                discount_amount  DECIMAL(18,2),
-                total_invoice    DECIMAL(18,2),
-                amount_received  DECIMAL(18,2),
-                quantity         INT,
-                shipping_fee     DECIMAL(18,2)
-            );
+        TRUNCATE TABLE silver.Transaction_Data;
 
         -- Dùng ROW_NUMBER() để dedup theo (order_id, product_name):
         -- 1 đơn hàng chỉ được có 1 dòng cho mỗi sản phẩm
@@ -102,10 +83,17 @@ BEGIN
                 LTRIM(RTRIM(version))                   AS version,
                 LTRIM(RTRIM(order_status))              AS order_status,
                 LTRIM(RTRIM(payment_method))            AS payment_method,
-                CAST(ISNULL(revenue, 0)         AS DECIMAL(18,2)) AS revenue,
-                CAST(ISNULL(discount_amount, 0) AS DECIMAL(18,2)) AS discount_amount,
+                CAST(ISNULL(revenue, 0)                  AS DECIMAL(18,2)) AS revenue,
+                ABS(CAST(ISNULL(discount_amount, 0) AS DECIMAL(18,2)))  AS discount_amount, -- chuẩn hóa thành số dương
                 CAST(ISNULL(total_invoice, 0)   AS DECIMAL(18,2)) AS total_invoice,
-                CAST(ISNULL(amount_received, 0) AS DECIMAL(18,2)) AS amount_received,
+                -- amount_received: đơn không hủy = revenue - discount (thu đủ); đơn hủy = 0
+                -- Dùng LEN() thay vì so sánh chuỗi Unicode để tránh encoding issue khi deploy
+                -- LEN('Hủy')=3, LEN('Không hủy')=9
+                CASE WHEN LEN(LTRIM(RTRIM(order_status))) > 3
+                     THEN CAST(ISNULL(revenue, 0) AS DECIMAL(18,2))
+                          - ABS(CAST(ISNULL(discount_amount, 0) AS DECIMAL(18,2)))
+                     ELSE 0
+                END                                                             AS amount_received,
                 ISNULL(quantity, 0)                     AS quantity,
                 CAST(ISNULL(shipping_fee, 0)    AS DECIMAL(18,2)) AS shipping_fee,
                 ROW_NUMBER() OVER (
@@ -126,13 +114,7 @@ BEGIN
         -- ------------------------------------------------
         PRINT '>> Building silver.Gift_Data...';
 
-        IF OBJECT_ID('silver.Gift_Data', 'U') IS NOT NULL
-            TRUNCATE TABLE silver.Gift_Data;
-        ELSE
-            CREATE TABLE silver.Gift_Data (
-                order_id  INT           NOT NULL,
-                gift_name NVARCHAR(255) NOT NULL
-            );
+        TRUNCATE TABLE silver.Gift_Data;
 
         INSERT INTO silver.Gift_Data (order_id, gift_name)
         SELECT
@@ -151,13 +133,7 @@ BEGIN
         -- ------------------------------------------------
         PRINT '>> Building silver.Shipping_Data...';
 
-        IF OBJECT_ID('silver.Shipping_Data', 'U') IS NOT NULL
-            TRUNCATE TABLE silver.Shipping_Data;
-        ELSE
-            CREATE TABLE silver.Shipping_Data (
-                order_id     INT           NOT NULL,
-                shipping_fee DECIMAL(18,2) NOT NULL
-            );
+        TRUNCATE TABLE silver.Shipping_Data;
 
         INSERT INTO silver.Shipping_Data (order_id, shipping_fee)
         SELECT
