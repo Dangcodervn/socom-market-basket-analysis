@@ -44,9 +44,10 @@ BEGIN
 
         TRUNCATE TABLE silver.Transaction_Data;
 
-        -- Dùng ROW_NUMBER() để dedup theo (order_id, product_name):
-        -- 1 đơn hàng chỉ được có 1 dòng cho mỗi sản phẩm
-        -- Giữ dòng có revenue cao nhất; nếu bằng nhau thì lấy bất kỳ
+        -- Dùng ROW_NUMBER() để dedup theo (order_id, product_name, version):
+        -- 1 đơn hàng chỉ được có 1 dòng cho mỗi SKU (product_name + version)
+        -- Giữ dòng có revenue cao nhất; nếu bằng nhau thì lấy bất kỳ.
+        -- Gồm version để không gộp nhầm 2 SKU khác màu/dung tích cùng tên -> mất doanh thu.
         INSERT INTO silver.Transaction_Data (
             manufacturer, customer, customer_email,
             [date], order_year, order_month, order_quarter,
@@ -54,7 +55,7 @@ BEGIN
             province, order_id, product_name, district,
             version, order_status, payment_method,
             revenue, discount_amount, total_invoice,
-            amount_received, quantity, shipping_fee
+            amount_received, quantity, shipping_fee, sub_category
         )
         SELECT
             manufacturer, customer, customer_email,
@@ -63,7 +64,7 @@ BEGIN
             province, order_id, product_name, district,
             version, order_status, payment_method,
             revenue, discount_amount, total_invoice,
-            amount_received, quantity, shipping_fee
+            amount_received, quantity, shipping_fee, sub_category
         FROM (
             SELECT
                 LTRIM(RTRIM(manufacturer))              AS manufacturer,
@@ -80,7 +81,7 @@ BEGIN
                 order_id,
                 LTRIM(RTRIM(product_name))              AS product_name,
                 LTRIM(RTRIM(district))                  AS district,
-                LTRIM(RTRIM(version))                   AS version,
+                ISNULL(LTRIM(RTRIM(version)), N'')       AS version,   -- NULL -> '' (khớp Gold ISNULL(version,''))
                 LTRIM(RTRIM(order_status))              AS order_status,
                 LTRIM(RTRIM(payment_method))            AS payment_method,
                 CAST(ISNULL(revenue, 0)                  AS DECIMAL(18,2)) AS revenue,
@@ -96,8 +97,9 @@ BEGIN
                 END                                                             AS amount_received,
                 ISNULL(quantity, 0)                     AS quantity,
                 CAST(ISNULL(shipping_fee, 0)    AS DECIMAL(18,2)) AS shipping_fee,
+                LTRIM(RTRIM(sub_category))              AS sub_category,
                 ROW_NUMBER() OVER (
-                    PARTITION BY order_id, LTRIM(RTRIM(product_name))
+                    PARTITION BY order_id, LTRIM(RTRIM(product_name)), ISNULL(LTRIM(RTRIM(version)), N'')
                     ORDER BY ISNULL(revenue, 0) DESC
                 ) AS rn
             FROM bronze.Transaction_Data

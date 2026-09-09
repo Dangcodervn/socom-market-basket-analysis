@@ -1,0 +1,33 @@
+table 'gold Fact_Gift'
+	lineageTag: 4a0639e5-e4df-432f-98b6-281f041b75f1
+
+	column order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7e33ebf8-463c-4b5e-9eaf-4a6983228666
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column gift_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a54b9b6-55eb-42b0-ae69-58a885bdc9b9
+		summarizeBy: none
+		sourceColumn: gift_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'gold Fact_Gift' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Fact_Gift"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Table
+

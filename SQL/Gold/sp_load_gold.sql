@@ -16,46 +16,19 @@ BEGIN
     BEGIN TRY
         BEGIN TRAN;
 
-        -- 1) Dim_Region
-        MERGE gold.Dim_Region AS tgt
-        USING (
-            SELECT DISTINCT
-                LTRIM(RTRIM(
-                    CASE
-                        WHEN CHARINDEX(NCHAR(8211), branch) > 0 THEN LEFT(branch, CHARINDEX(NCHAR(8211), branch) - 1)
-                        WHEN CHARINDEX('-',  branch) > 0 THEN LEFT(branch, CHARINDEX('-',  branch) - 1)
-                        ELSE branch
-                    END
-                )) AS region_name
-            FROM silver.Transaction_Data
-            WHERE branch IS NOT NULL
-        ) AS src
-        ON tgt.region_name = src.region_name
-        WHEN NOT MATCHED BY TARGET THEN
-            INSERT (region_name) VALUES (src.region_name);
-
-        -- 2) Dim_Province
+        -- 1) Dim_Province  (geo hierarchy: District -> Province, KHÔNG có Region)
         MERGE gold.Dim_Province AS tgt
         USING (
-            SELECT DISTINCT
-                t.province AS province_name,
-                r.region_id
-            FROM silver.Transaction_Data t
-            JOIN gold.Dim_Region r
-              ON r.region_name = LTRIM(RTRIM(
-                    CASE
-                        WHEN CHARINDEX(NCHAR(8211), t.branch) > 0 THEN LEFT(t.branch, CHARINDEX(NCHAR(8211), t.branch) - 1)
-                        WHEN CHARINDEX('-',  t.branch) > 0 THEN LEFT(t.branch, CHARINDEX('-',  t.branch) - 1)
-                        ELSE t.branch
-                    END
-              ))
-            WHERE t.province IS NOT NULL
+            SELECT DISTINCT province AS province_name
+            FROM silver.Transaction_Data
+            WHERE province IS NOT NULL
+              AND LEN(LTRIM(RTRIM(province))) > 0
         ) AS src
-        ON tgt.province_name = src.province_name AND tgt.region_id = src.region_id
+        ON tgt.province_name = src.province_name
         WHEN NOT MATCHED BY TARGET THEN
-            INSERT (province_name, region_id) VALUES (src.province_name, src.region_id);
+            INSERT (province_name) VALUES (src.province_name);
 
-        -- 3) Dim_District
+        -- 2) Dim_District
         MERGE gold.Dim_District AS tgt
         USING (
             SELECT DISTINCT
@@ -71,7 +44,7 @@ BEGIN
         WHEN NOT MATCHED BY TARGET THEN
             INSERT (district_name, province_id) VALUES (src.district_name, src.province_id);
 
-        -- 4) Dim_Customer
+        -- 3) Dim_Customer
         MERGE gold.Dim_Customer AS tgt
         USING (
             SELECT
@@ -89,7 +62,7 @@ BEGIN
         WHEN MATCHED AND ISNULL(tgt.customer_name, N'') <> ISNULL(src.customer_name, N'') THEN
             UPDATE SET customer_name = src.customer_name;
 
-        -- 5) Dim_Manufacturer
+        -- 4) Dim_Manufacturer
         MERGE gold.Dim_Manufacturer AS tgt
         USING (
             SELECT DISTINCT manufacturer AS manufacturer_name
@@ -101,39 +74,35 @@ BEGIN
         WHEN NOT MATCHED BY TARGET THEN
             INSERT (manufacturer_name) VALUES (src.manufacturer_name);
 
-        -- 6) Dim_Category
+        -- 5) Dim_Category  (grain = category_name + sub_category_name)
         MERGE gold.Dim_Category AS tgt
         USING (
-            SELECT DISTINCT product_category AS category_name
+            SELECT DISTINCT
+                product_category AS category_name,
+                ISNULL(NULLIF(LTRIM(RTRIM(sub_category)), N''), N'Khác') AS sub_category_name
             FROM silver.Transaction_Data
             WHERE product_category IS NOT NULL
         ) AS src
         ON tgt.category_name = src.category_name
+           AND tgt.sub_category_name = src.sub_category_name
         WHEN NOT MATCHED BY TARGET THEN
-            INSERT (category_name) VALUES (src.category_name);
+            INSERT (category_name, sub_category_name)
+            VALUES (src.category_name, src.sub_category_name);
 
-        -- 7) Dim_Date (insert missing days only)
-        ;WITH
-        digits(n) AS (
-            SELECT n FROM (VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9)) AS d(n)
-        ),
-        series(n) AS (
-            SELECT a.n + b.n*10 + c.n*100 + d.n*1000
-            FROM digits a
-            CROSS JOIN digits b
-            CROSS JOIN digits c
-            CROSS JOIN digits d
-        ),
-        bounds AS (
+        -- 6) Dim_Date (calendar liên tục MIN..MAX, chỉ chèn ngày còn thiếu)
+        --    Recursive CTE + MAXRECURSION 0 -> không giới hạn span (bản cũ chặn ~27 năm).
+        ;WITH bounds AS (
             SELECT MIN([date]) AS min_date, MAX([date]) AS max_date
             FROM silver.Transaction_Data
             WHERE [date] IS NOT NULL
         ),
         calendar AS (
-            SELECT DATEADD(DAY, s.n, b.min_date) AS [date]
-            FROM series s
+            SELECT min_date AS [date] FROM bounds WHERE min_date IS NOT NULL
+            UNION ALL
+            SELECT DATEADD(DAY, 1, c.[date])
+            FROM calendar c
             CROSS JOIN bounds b
-            WHERE DATEADD(DAY, s.n, b.min_date) <= b.max_date
+            WHERE c.[date] < b.max_date
         )
         INSERT INTO gold.Dim_Date (
             date_id, [date], [year], [quarter], quarter_name, [month], month_name, [day], week_day, week_day_name
@@ -154,34 +123,42 @@ BEGIN
             SELECT 1
             FROM gold.Dim_Date d
             WHERE d.[date] = c.[date]
-        );
+        )
+        OPTION (MAXRECURSION 0);
 
-        -- 8) Dim_Product
+        -- 7) Dim_Product  (1 dòng / SKU: chọn (category, manufacturer) xuất hiện nhiều nhất)
+        --    Lọc rn=1 NGAY trong USING để MERGE không bao giờ match 1 target với >1 src row.
         MERGE gold.Dim_Product AS tgt
         USING (
-            SELECT
-                t.product_name,
-                ISNULL(t.version, N'') AS version,
-                c.category_id,
-                m.manufacturer_id,
-                ROW_NUMBER() OVER (
-                    PARTITION BY t.product_name, ISNULL(t.version, N'')
-                    ORDER BY COUNT(*) DESC
-                ) AS rn
-            FROM silver.Transaction_Data t
-            JOIN gold.Dim_Category c ON c.category_name = t.product_category
-            JOIN gold.Dim_Manufacturer m ON m.manufacturer_name = t.manufacturer
-            WHERE t.quantity > 0
-              AND t.revenue > 0
-              AND t.manufacturer <> N'--'
-            GROUP BY t.product_name, ISNULL(t.version, N''), c.category_id, m.manufacturer_id
+            SELECT product_name, version, category_id, manufacturer_id
+            FROM (
+                SELECT
+                    t.product_name,
+                    ISNULL(t.version, N'') AS version,
+                    c.category_id,
+                    m.manufacturer_id,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY t.product_name, ISNULL(t.version, N'')
+                        ORDER BY COUNT(*) DESC
+                    ) AS rn
+                FROM silver.Transaction_Data t
+                JOIN gold.Dim_Category c
+                  ON c.category_name = t.product_category
+                 AND c.sub_category_name = ISNULL(NULLIF(LTRIM(RTRIM(t.sub_category)), N''), N'Khác')
+                JOIN gold.Dim_Manufacturer m ON m.manufacturer_name = t.manufacturer
+                WHERE t.quantity > 0
+                  AND t.revenue > 0
+                  AND t.manufacturer <> N'--'
+                GROUP BY t.product_name, ISNULL(t.version, N''), c.category_id, m.manufacturer_id
+            ) ranked
+            WHERE ranked.rn = 1
         ) AS src
         ON tgt.product_name = src.product_name
            AND tgt.version = src.version
-        WHEN NOT MATCHED BY TARGET AND src.rn = 1 THEN
+        WHEN NOT MATCHED BY TARGET THEN
             INSERT (product_name, version, category_id, manufacturer_id)
             VALUES (src.product_name, src.version, src.category_id, src.manufacturer_id)
-        WHEN MATCHED AND src.rn = 1 AND (
+        WHEN MATCHED AND (
                tgt.category_id <> src.category_id
             OR tgt.manufacturer_id <> src.manufacturer_id
         ) THEN
@@ -189,7 +166,7 @@ BEGIN
                 category_id = src.category_id,
                 manufacturer_id = src.manufacturer_id;
 
-        -- 9) Dim_Order
+        -- 8) Dim_Order
         MERGE gold.Dim_Order AS tgt
         USING (
             SELECT
@@ -204,6 +181,7 @@ BEGIN
                 SELECT *, ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY product_name) AS rn
                 FROM silver.Transaction_Data
                 WHERE order_id IS NOT NULL
+                  AND [date] IS NOT NULL   -- date_id NOT NULL: bỏ đơn không có ngày (tránh rollback cả SP)
             ) t
             LEFT JOIN gold.Dim_Customer c ON c.customer_email = t.customer_email
             OUTER APPLY (
@@ -237,7 +215,7 @@ BEGIN
                 order_status = src.order_status,
                 payment_method = src.payment_method;
 
-        -- 10) Dim_Gift
+        -- 9) Dim_Gift
         MERGE gold.Dim_Gift AS tgt
         USING (
             SELECT DISTINCT gift_name
@@ -249,7 +227,7 @@ BEGIN
         WHEN NOT MATCHED BY TARGET THEN
             INSERT (gift_name) VALUES (src.gift_name);
 
-        -- 11) Fact_OrderLine (full refresh)
+        -- 10) Fact_OrderLine (full refresh)
         TRUNCATE TABLE gold.Fact_OrderLine;
 
         INSERT INTO gold.Fact_OrderLine (order_id, product_id, quantity, revenue, discount_amount, amount_received)
@@ -267,18 +245,16 @@ BEGIN
         JOIN gold.Dim_Order o
           ON o.order_id = t.order_id;
 
-        -- 12) Fact_Gift (full refresh)
+        -- 11) Fact_Gift (full refresh)
         TRUNCATE TABLE gold.Fact_Gift;
 
         INSERT INTO gold.Fact_Gift (order_id, gift_id)
-        SELECT
+        SELECT DISTINCT
             g.order_id,
             dg.gift_id
         FROM silver.Gift_Data g
         JOIN gold.Dim_Gift dg ON dg.gift_name = g.gift_name
         JOIN gold.Dim_Order o ON o.order_id = g.order_id;
-
-        -- 13) MBA kept as VIEW only (no materialized table)
 
         COMMIT TRAN;
 

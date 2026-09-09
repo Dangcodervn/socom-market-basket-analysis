@@ -10,7 +10,9 @@ __pycache__/
 *.pyo
 
 # Generated data (can be re-created by running the notebook)
-Cleaned_Data/
+Cleaned_Data/*
+# ... nhưng GIỮ lại bảng mapping đã review tay (nguồn chân lý, không tái tạo được)
+!Cleaned_Data/product_category_map.xlsx
 
 # Raw data — contains customer PII, do not commit to public repo
 Raw Data/
@@ -18,3 +20,14 @@ Raw Data/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Claude Code — cấu hình MCP có path tuyệt đối của máy, không chia sẻ được
+.mcp.json
+
+# Power BI Project (PBIP) — cache dữ liệu + settings per-machine (có DPAPI blob), tái tạo được.
+# GIỮ lại: *.pbip, definition/**, .platform, StaticResources/** (đó mới là "project").
+**/.pbi/
+
+# Power BI binary — dùng "Power BI Project/" (PBIP dạng text, diff được) làm nguồn chân lý.
+# File này ĐANG được git track → chạy:  git rm --cached "SocomDataAnalysis.pbix"  để bỏ track.
+SocomDataAnalysis.pbix

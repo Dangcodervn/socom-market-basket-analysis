@@ -1,0 +1,111 @@
+table 'gold Dim_Date'
+	lineageTag: f12ec29e-3a04-4de4-a231-3dfe1396af79
+	dataCategory: Time
+
+	column date_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a619dac-2246-4e33-9641-c28cdf2a2294
+		summarizeBy: none
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		isUnique
+		formatString: Long Date
+		lineageTag: 7187e5a2-287e-4996-9c68-9bfd39f74531
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: 60a4e92d-f23e-4cc0-bce5-ebc9d165cc07
+			defaultHierarchy: LocalDateTable_5343a695-2785-4689-b7fc-ad6ed3a822fe.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: e0b45dad-3696-483c-a73c-2be1700f7b60
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c5a6d36-54e9-47d4-97ed-59125bfdb16b
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_name
+		dataType: string
+		lineageTag: ec882e45-887a-4610-9e29-2a0b294a7397
+		summarizeBy: none
+		sourceColumn: quarter_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 45ddd512-f3e6-40bb-8b02-bb8d6cb10128
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 55acef4d-cd6f-4d03-9e49-05db3c7208c7
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: ceddf6af-ec38-4081-a580-b013ce78ed62
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_day
+		dataType: int64
+		formatString: 0
+		lineageTag: 05420a80-56b6-4893-a96f-0d4da80a9ce7
+		summarizeBy: sum
+		sourceColumn: week_day
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_day_name
+		dataType: string
+		lineageTag: ff5ead93-985c-47f1-bbae-297c21f81185
+		summarizeBy: none
+		sourceColumn: week_day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'gold Dim_Date' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Dim_Date"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Table
+

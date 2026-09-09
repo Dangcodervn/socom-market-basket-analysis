@@ -1,0 +1,123 @@
+table _Measures
+	lineageTag: 0e1d43dc-71b5-4436-b77b-d3f8687faec8
+
+	measure 'Net Revenue' = SUM ( 'gold Fact_OrderLine'[amount_received] )
+		formatString: #,0
+		displayFolder: Revenue
+		lineageTag: 5bd3f542-8387-417e-8cf2-37c4d2858a3b
+
+	measure 'Gross Revenue' = SUM ( 'gold Fact_OrderLine'[revenue] )
+		formatString: #,0
+		displayFolder: Revenue
+		lineageTag: 363e43e8-aeb2-46b4-a320-afe7fe6aba81
+
+	measure 'Discount Amount' = SUM ( 'gold Fact_OrderLine'[discount_amount] )
+		formatString: #,0
+		displayFolder: Revenue
+		lineageTag: 96071680-69cf-440e-b6d4-a51c1d230842
+
+	measure 'Units Sold' = SUM ( 'gold Fact_OrderLine'[quantity] )
+		formatString: #,0
+		displayFolder: Revenue
+		lineageTag: 1d7defcf-6039-473f-b055-08800d269143
+
+	measure 'Gross Revenue Lost' = CALCULATE ( [Gross Revenue], 'gold Dim_Order'[order_status] = "Hủy" )
+		formatString: #,0
+		displayFolder: Revenue
+		lineageTag: 89102dcb-7f79-417d-b8e2-d7e47a78727b
+
+	measure Orders = DISTINCTCOUNT ( 'gold Dim_Order'[order_id] )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: be0f24df-613b-4d4c-a41b-1fc873f742dc
+
+	measure 'Cancelled Orders' = CALCULATE ( [Orders], 'gold Dim_Order'[order_status] = "Hủy" )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: 7b84e751-a698-4015-bdb3-f2d2bae2aca5
+
+	measure 'Completed Orders' = CALCULATE ( [Orders], 'gold Dim_Order'[order_status] = "Không hủy" )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: b5f73484-83aa-4f89-aca2-ec3a1cfc98a3
+
+	measure 'Cancel Rate' = DIVIDE ( [Cancelled Orders], [Orders] )
+		formatString: 0.0%
+		displayFolder: Orders
+		lineageTag: 856ffbee-de0e-4a4c-9b8a-f475f7a20453
+
+	measure AOV = DIVIDE ( [Net Revenue], [Completed Orders] )
+		formatString: #,0
+		displayFolder: Basket & AOV
+		lineageTag: b7071b7b-78e7-4a8d-a332-70e5a73dfb18
+
+	measure 'Basket Size' = CALCULATE ( AVERAGEX ( VALUES ( 'gold Dim_Order'[order_id] ), CALCULATE ( DISTINCTCOUNT ( 'gold Fact_OrderLine'[product_id] ) ) ), 'gold Dim_Order'[order_status] = "Không hủy" )
+		formatString: 0.00
+		displayFolder: Basket & AOV
+		lineageTag: 40012e4f-894d-42bf-bdba-fac0c73e9c63
+
+	measure 'Single-item Order %' = VAR Base = CALCULATETABLE ( VALUES ( 'gold Dim_Order'[order_id] ), 'gold Dim_Order'[order_status] = "Không hủy" ) VAR SingleItem = FILTER ( Base, CALCULATE ( DISTINCTCOUNT ( 'gold Fact_OrderLine'[product_id] ) ) = 1 ) RETURN DIVIDE ( COUNTROWS ( SingleItem ), COUNTROWS ( Base ) )
+		formatString: 0.0%
+		displayFolder: Basket & AOV
+		lineageTag: 67dc66c9-e6a6-45a8-bb70-c4698ccf02d6
+
+	measure 'AOV (Gift)' = CALCULATE ( [AOV], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), NOT ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: #,0
+		displayFolder: Basket & AOV
+		lineageTag: 467b3759-40b0-4bf4-87ca-b24dfff7bea6
+
+	measure 'AOV (No Gift)' = CALCULATE ( [AOV], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: #,0
+		displayFolder: Basket & AOV
+		lineageTag: 9fbff281-753f-450c-a019-63685a6497a5
+
+	measure Customers = DISTINCTCOUNT ( 'gold Dim_Order'[customer_id] )
+		formatString: #,0
+		displayFolder: Customer
+		lineageTag: 32522a7d-6bf4-417a-a61b-70fbe8cdff1c
+
+	measure 'Repeat Customers' = COUNTROWS ( FILTER ( VALUES ( 'gold Dim_Customer'[customer_id] ), CALCULATE ( DISTINCTCOUNT ( 'gold Dim_Order'[order_id] ) ) >= 2 ) )
+		formatString: #,0
+		displayFolder: Customer
+		lineageTag: dff3b5b0-ee69-438b-8222-fb0ab5d035e5
+
+	measure 'Repeat Customer Rate' = DIVIDE ( [Repeat Customers], [Customers] )
+		formatString: 0.0%
+		displayFolder: Customer
+		lineageTag: 3afa4ef0-9dfb-4d41-bb0d-14db805a0ec5
+
+	measure 'Net Revenue PM' = CALCULATE ( [Net Revenue], DATEADD ( 'gold Dim_Date'[date], -1, MONTH ) )
+		formatString: #,0
+		displayFolder: Time Intelligence
+		lineageTag: dddf62b5-0f35-453f-9032-d16f3b563edd
+
+	measure 'Net Revenue MoM %' = DIVIDE ( [Net Revenue] - [Net Revenue PM], [Net Revenue PM] )
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+		lineageTag: 00a6e314-a775-4ca7-9f97-15067e01e109
+
+	measure 'Pair Priority Score' = VAR l = MAX ( 'gold vw_MBA_SubCategory_Pairs'[lift] ) VAR n = MAX ( 'gold vw_MBA_SubCategory_Pairs'[pair_order_count] ) RETURN IF ( n > 0, l * LN ( n ) )
+		formatString: 0.00
+		displayFolder: MBA
+		lineageTag: 15d6a76a-9e2b-4dd9-9c65-3f47f4a715c1
+
+	measure 'Avg Lift' = AVERAGE ( 'gold vw_MBA_SubCategory_Pairs'[lift] )
+		formatString: 0.00
+		displayFolder: MBA
+		lineageTag: 12261cd4-0f7a-46a9-8755-1da8ccebcd69
+
+	measure 'Max Confidence' = MAX ( 'gold vw_MBA_SubCategory_Pairs'[confidence_a_to_b] )
+		formatString: 0.0%
+		displayFolder: MBA
+		lineageTag: 6e5285d6-a5ba-465c-93ad-97205a16e58d
+
+	column _
+		isHidden
+		lineageTag: 13cdafb7-73d8-450f-bab4-2eda363d78b5
+		isNameInferred
+		sourceColumn: [_]
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW("_", BLANK())
+

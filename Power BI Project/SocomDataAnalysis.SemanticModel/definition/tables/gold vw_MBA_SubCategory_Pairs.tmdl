@@ -1,0 +1,98 @@
+table 'gold vw_MBA_SubCategory_Pairs'
+	lineageTag: d6139ce8-e564-4e96-ac99-da811dee12c5
+
+	column item_a
+		dataType: string
+		lineageTag: 6c26868f-7cdb-41b9-85bf-fc0e52835be1
+		summarizeBy: none
+		sourceColumn: item_a
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_b
+		dataType: string
+		lineageTag: 15457400-e419-45f4-8b40-23aadba51821
+		summarizeBy: none
+		sourceColumn: item_b
+
+		annotation SummarizationSetBy = Automatic
+
+	column pair_order_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f6fe702-0ed8-48b3-8f69-57ace5109a0d
+		summarizeBy: sum
+		sourceColumn: pair_order_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_a_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: c5091653-5856-4dc3-b236-8d1da64935f2
+		summarizeBy: sum
+		sourceColumn: item_a_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_b_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 9622b77c-dc04-4d6f-94a3-a51a045bee69
+		summarizeBy: sum
+		sourceColumn: item_b_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column support
+		dataType: double
+		lineageTag: f3ba7160-9f52-4129-87f4-97f600aab114
+		summarizeBy: sum
+		sourceColumn: support
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column confidence_a_to_b
+		dataType: double
+		lineageTag: af6d165d-a517-49a2-bd5c-8aabf4405429
+		summarizeBy: sum
+		sourceColumn: confidence_a_to_b
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column confidence_b_to_a
+		dataType: double
+		lineageTag: 2222f30a-6da2-487b-b7f4-0e05d9767f86
+		summarizeBy: sum
+		sourceColumn: confidence_b_to_a
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lift
+		dataType: double
+		lineageTag: d4b5fa60-0f6b-4e83-9585-b5c8ed44bcc4
+		summarizeBy: sum
+		sourceColumn: lift
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'gold vw_MBA_SubCategory_Pairs' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "vw_MBA_SubCategory_Pairs"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Table
+

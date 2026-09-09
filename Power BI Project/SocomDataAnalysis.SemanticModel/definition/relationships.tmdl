@@ -1,0 +1,65 @@
+relationship 60a4e92d-f23e-4cc0-bce5-ebc9d165cc07
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'gold Dim_Date'.date
+	toColumn: LocalDateTable_5343a695-2785-4689-b7fc-ad6ed3a822fe.Date
+
+relationship fdc06435-e801-4e02-9c40-85b7997d2892
+	fromColumn: 'gold Dim_District'.province_id
+	toColumn: 'gold Dim_Province'.province_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship e2887bb9-fd38-46b6-8567-47d1cd0a711c
+	fromColumn: 'gold Dim_Order'.customer_id
+	toColumn: 'gold Dim_Customer'.customer_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 2505c83c-43f4-45ab-bbb5-b24c89f3a9c5
+	fromColumn: 'gold Dim_Order'.date_id
+	toColumn: 'gold Dim_Date'.date_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 2ee1d95c-651b-452f-b274-714ae16681a1
+	fromColumn: 'gold Dim_Order'.district_id
+	toColumn: 'gold Dim_District'.district_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 3ce3c930-fb29-42b2-82e6-8245887fa842
+	fromColumn: 'gold Dim_Product'.category_id
+	toColumn: 'gold Dim_Category'.category_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship c6320daf-c68c-49bd-8020-300f2fe6fb23
+	fromColumn: 'gold Dim_Product'.manufacturer_id
+	toColumn: 'gold Dim_Manufacturer'.manufacturer_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 1bc97470-139b-4def-8bd8-d8bdb6e560b7
+	fromColumn: 'gold Fact_Gift'.gift_id
+	toColumn: 'gold Dim_Gift'.gift_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship de8f7fb1-32c1-4a9c-9052-9dae95f0c641
+	fromColumn: 'gold Fact_Gift'.order_id
+	toColumn: 'gold Dim_Order'.order_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 9a85a384-5dad-46ed-9684-988f479489e4
+	fromColumn: 'gold Fact_OrderLine'.order_id
+	toColumn: 'gold Dim_Order'.order_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 12484985-c35b-40ef-9b2a-51296d342809
+	fromColumn: 'gold Fact_OrderLine'.product_id
+	toColumn: 'gold Dim_Product'.product_id
+
+	annotation PBI_IsFromSource = FS
+

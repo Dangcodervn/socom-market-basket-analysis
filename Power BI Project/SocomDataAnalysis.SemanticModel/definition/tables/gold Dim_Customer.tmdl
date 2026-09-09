@@ -1,0 +1,40 @@
+table 'gold Dim_Customer'
+	lineageTag: 8e93a7ee-c658-490b-86fa-6f8668e4fa8c
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 341d5d83-9771-4333-a4a6-a9e333711875
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_email
+		dataType: string
+		lineageTag: 46023934-a89e-4381-9d7e-7fe67bcc9b66
+		summarizeBy: none
+		sourceColumn: customer_email
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: 4dda3560-ad06-4d41-a416-4ee4345661f9
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'gold Dim_Customer' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Dim_Customer"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Table
+

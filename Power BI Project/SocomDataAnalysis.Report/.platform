@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "SocomDataAnalysis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "35bb56c7-6d2d-4d8f-bf7a-e585f906dc98"
+  }
+}

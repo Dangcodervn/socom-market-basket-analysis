@@ -1,0 +1,41 @@
+table 'gold Dim_District'
+	lineageTag: 485b4265-0f11-4dd3-9747-a5b63a04d786
+
+	column district_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bd748042-40b2-48fb-b01e-dae804f08551
+		summarizeBy: none
+		sourceColumn: district_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column district_name
+		dataType: string
+		lineageTag: b09ae144-9491-43e7-8c93-f1be3ca82bf6
+		summarizeBy: none
+		sourceColumn: district_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column province_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d559e42-572b-4d4f-b49d-c747c2d9c085
+		summarizeBy: none
+		sourceColumn: province_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'gold Dim_District' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Dim_District"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Table
+

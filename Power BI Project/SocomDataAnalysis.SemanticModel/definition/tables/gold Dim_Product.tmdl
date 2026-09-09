@@ -1,0 +1,58 @@
+table 'gold Dim_Product'
+	lineageTag: 05a2a98e-b57f-419a-8935-29e149cd1d76
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 32888d9d-29d3-4d7b-984e-0aaea8fe215e
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		lineageTag: 7aa88069-8b17-4daf-b893-6b92e2f60e17
+		summarizeBy: none
+		sourceColumn: product_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column version
+		dataType: string
+		lineageTag: 6b9e73c8-b0e3-4f3e-b561-7bd4aa2a54f0
+		summarizeBy: none
+		sourceColumn: version
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e7c080e-fe21-422e-93b6-d702b0dbdc75
+		summarizeBy: none
+		sourceColumn: category_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column manufacturer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e21b4f2e-d4f4-449d-ab93-477a37a664b9
+		summarizeBy: none
+		sourceColumn: manufacturer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'gold Dim_Product' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Dim_Product"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,217 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 304.23614974800512,
+            "y": 470.59206046932792
+          },
+          "nodeIndex": "gold Dim_Category",
+          "nodeLineageTag": "700f53fb-c810-41b8-8426-4b9da3add72e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1379.3027423511328,
+            "y": 790.08881155812958
+          },
+          "nodeIndex": "gold Dim_Customer",
+          "nodeLineageTag": "8e93a7ee-c658-490b-86fa-6f8668e4fa8c",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 869.48547306810758,
+            "y": 815.4730348896619
+          },
+          "nodeIndex": "gold Dim_Date",
+          "nodeLineageTag": "f12ec29e-3a04-4de4-a231-3dfe1396af79",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1194.7469857900094,
+            "y": 1068.5152106233197
+          },
+          "nodeIndex": "gold Dim_District",
+          "nodeLineageTag": "485b4265-0f11-4dd3-9747-a5b63a04d786",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1320.9548448660712,
+            "y": 69.021142216743556
+          },
+          "nodeIndex": "gold Dim_Gift",
+          "nodeLineageTag": "0e0bf64c-aa7b-4031-82f6-31d1a395dc98",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 302.06033486665086,
+            "y": 1040.2826830509193
+          },
+          "nodeIndex": "gold Dim_Manufacturer",
+          "nodeLineageTag": "e7ed6d5e-03de-4f04-bd66-493b2714b738",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1080.4662481692342,
+            "y": 521.95893683767065
+          },
+          "nodeIndex": "gold Dim_Order",
+          "nodeLineageTag": "5ed4e0a3-7b38-4ca4-ac0c-d9530048924c",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 503.78487689390033,
+            "y": 768.17055402375775
+          },
+          "nodeIndex": "gold Dim_Product",
+          "nodeLineageTag": "05a2a98e-b57f-419a-8935-29e149cd1d76",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1484.763720060902,
+            "y": 1242.7851220036116
+          },
+          "nodeIndex": "gold Dim_Province",
+          "nodeLineageTag": "e6633739-77c7-43b1-8fcd-143b8c29740d",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1087.7014368932307,
+            "y": 295.28340593441737
+          },
+          "nodeIndex": "gold Fact_Gift",
+          "nodeLineageTag": "4a0639e5-e4df-432f-98b6-281f041b75f1",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 728.661305487967,
+            "y": 485.64451754011765
+          },
+          "nodeIndex": "gold Fact_OrderLine",
+          "nodeLineageTag": "03ff1c8c-1070-4939-ab53-8fa3f6e71891",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1673.2944591697633,
+            "y": 730.97297670385217
+          },
+          "nodeIndex": "gold vw_MBA_Product_Pairs",
+          "nodeLineageTag": "eaf5df7d-b0af-43b6-aa85-bf1af2b2d1c7",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1971.1979986091078,
+            "y": 711.1107775047891
+          },
+          "nodeIndex": "gold vw_MBA_SubCategory_Pairs",
+          "nodeLineageTag": "d6139ce8-e564-4e96-ac99-da811dee12c5",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1784.3089705504221,
+            "y": 409.81896187709162
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "0e1d43dc-71b5-4436-b77b-d3f8687faec8",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1510.2106216033544,
+            "y": 406.75695151667009
+          },
+          "nodeIndex": "_MBA_Pairs_Matrix",
+          "nodeLineageTag": "60024522-f3e2-4ca8-ab90-46e308f163f8",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 50.346892102823148,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

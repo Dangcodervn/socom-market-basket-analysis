@@ -1,0 +1,37 @@
+table _MBA_Pairs_Matrix
+	lineageTag: 60024522-f3e2-4ca8-ab90-46e308f163f8
+
+	column item_x
+		lineageTag: 3431bf33-e1fe-4aef-acd1-0cd76d5b4fca
+		isNameInferred
+		sourceColumn: [item_x]
+
+	column item_y
+		lineageTag: 97d23619-5112-4361-9edb-bb6f43cf3379
+		isNameInferred
+		sourceColumn: [item_y]
+
+	column pair_order_count
+		lineageTag: 34e0d280-0ca6-494c-8e53-2ef29cd30028
+		isNameInferred
+		sourceColumn: [pair_order_count]
+
+	column support
+		lineageTag: 00dbbe30-ffe9-4906-abef-d22b61a66ffc
+		isNameInferred
+		sourceColumn: [support]
+
+	column confidence
+		lineageTag: 032eb3cc-11dc-4dad-9fdd-176c83c8b56c
+		isNameInferred
+		sourceColumn: [confidence]
+
+	column lift
+		lineageTag: 1a86d022-f76e-4cf8-b557-cbe5b4b2c608
+		isNameInferred
+		sourceColumn: [lift]
+
+	partition _MBA_Pairs_Matrix = calculated
+		mode: import
+		source = UNION ( SELECTCOLUMNS ( 'gold vw_MBA_SubCategory_Pairs', "item_x", [item_a], "item_y", [item_b], "pair_order_count", [pair_order_count], "support", [support], "confidence", [confidence_a_to_b], "lift", [lift] ), SELECTCOLUMNS ( 'gold vw_MBA_SubCategory_Pairs', "item_x", [item_b], "item_y", [item_a], "pair_order_count", [pair_order_count], "support", [support], "confidence", [confidence_b_to_a], "lift", [lift] ) )
+

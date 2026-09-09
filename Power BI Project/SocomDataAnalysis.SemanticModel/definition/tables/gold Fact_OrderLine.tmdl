@@ -1,0 +1,72 @@
+table 'gold Fact_OrderLine'
+	lineageTag: 03ff1c8c-1070-4939-ab53-8fa3f6e71891
+
+	column order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f822aae7-5db2-49d0-a54c-ef7d129a35e9
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d8cbf7c-667d-4d01-b31e-a6d559856572
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c3b97bd-a7fe-4be0-aa71-919a83ebabef
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: d1d95fb0-d017-4573-8c95-eb025a2d02ca
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column discount_amount
+		dataType: double
+		lineageTag: 07ab7965-ad78-4e7a-86ab-8cab25826dec
+		summarizeBy: sum
+		sourceColumn: discount_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column amount_received
+		dataType: double
+		lineageTag: fdf2cae1-9ac3-4675-9f9a-f2bcc5d39997
+		summarizeBy: sum
+		sourceColumn: amount_received
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'gold Fact_OrderLine' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Fact_OrderLine"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Table
+

@@ -53,7 +53,9 @@ SELECT 'manufacturer',                   COUNT(*)              FROM bronze.Trans
 UNION ALL
 SELECT 'district',                        COUNT(*)              FROM bronze.Transaction_Data WHERE district IS NULL OR LEN(LTRIM(RTRIM(district))) = 0
 UNION ALL
-SELECT 'province',                        COUNT(*)              FROM bronze.Transaction_Data WHERE province IS NULL OR LEN(LTRIM(RTRIM(province))) = 0;
+SELECT 'province',                        COUNT(*)              FROM bronze.Transaction_Data WHERE province IS NULL OR LEN(LTRIM(RTRIM(province))) = 0
+UNION ALL
+SELECT 'sub_category',                    COUNT(*)              FROM bronze.Transaction_Data WHERE sub_category IS NULL OR LEN(LTRIM(RTRIM(sub_category))) = 0;
 
 -- ============================================================
 -- 3. WHITESPACE CHECK — Cột text có khoảng trắng thừa không?
@@ -86,11 +88,15 @@ UNION ALL
 SELECT 'version',                       COUNT(*)              FROM bronze.Transaction_Data WHERE version            <> LTRIM(RTRIM(version));
 
 -- ============================================================
--- 4. DUPLICATE CHECK — Trùng ở Bronze là lỗi ETL hay nghiệp vụ?
---    → Quyết định: cần ROW_NUMBER() dedup ở Silver?
+-- 4. DUPLICATE CHECK — regression guard
+--    exact_duplicate_extra_rows kỳ vọng = 0.
+--      > 0  -> file raw lại bị nạp trùng (kiểm tra thư mục Raw Data).
+--    duplicate_pairs (order_id + product_name) > 0 là BÌNH THƯỜNG ở Bronze:
+--      đơn "Hủy" export thêm dòng contra 0/0, và các SKU khác version cùng tên.
+--      -> Silver dedup theo (order_id, product_name, version).
 -- ============================================================
 PRINT '';
-PRINT '--- [4] DUPLICATE CHECK ---';
+PRINT '--- [4] DUPLICATE CHECK (regression guard) ---';
 
 -- 4a. Trùng theo (order_id, product_name) — grain mong đợi
 SELECT
@@ -128,7 +134,7 @@ FROM (
         province, order_id, product_name, district,
         version, order_status, payment_method,
         revenue, discount_amount, total_invoice,
-        amount_received, quantity, shipping_fee
+        amount_received, quantity, shipping_fee, sub_category
     HAVING COUNT(*) > 1
 ) exact_extra;
 

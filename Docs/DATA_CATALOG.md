@@ -18,7 +18,7 @@ Dữ liệu thô nạp trực tiếp từ CSV, **không có transformation**.
 | customer_email   | NVARCHAR(255) | Email khách hàng                    |
 | date             | DATE          | Ngày đặt hàng                       |
 | traffic_source   | NVARCHAR(100) | Kênh bán hàng (Facebook, TikTok...) |
-| branch           | NVARCHAR(100) | Chi nhánh (Region – Province)       |
+| branch           | NVARCHAR(100) | Kho/gian hàng (không đưa vào Gold)  |
 | product_category | NVARCHAR(100) | Danh mục sản phẩm                   |
 | province         | NVARCHAR(100) | Tỉnh/Thành phố                      |
 | order_id         | INT           | Mã đơn hàng                         |
@@ -33,6 +33,7 @@ Dữ liệu thô nạp trực tiếp từ CSV, **không có transformation**.
 | amount_received  | FLOAT         | Số tiền thực nhận                   |
 | quantity         | INT           | Số lượng                            |
 | shipping_fee     | INT           | Phí vận chuyển                      |
+| sub_category      | NVARCHAR(100) | Danh mục con (từ bảng mapping AI)   |
 
 ### `bronze.Gift_Data`
 
@@ -67,7 +68,7 @@ Transformation: LTRIM/RTRIM, CAST, lọc NULL, loại duplicate theo `(order_id,
 | **order_month**   | INT           | Tháng đặt hàng         | MONTH(date) — derived             |
 | **order_quarter** | INT           | Quý đặt hàng           | DATEPART(QUARTER, date) — derived |
 | traffic_source    | NVARCHAR(100) | Kênh bán hàng          | LTRIM/RTRIM                       |
-| branch            | NVARCHAR(100) | Chi nhánh              | LTRIM/RTRIM                       |
+| branch            | NVARCHAR(100) | Kho/gian hàng          | LTRIM/RTRIM (không đưa vào Gold)  |
 | product_category  | NVARCHAR(100) | Danh mục sản phẩm      | LTRIM/RTRIM                       |
 | province          | NVARCHAR(100) | Tỉnh/Thành phố         | LTRIM/RTRIM                       |
 | order_id          | INT           | Mã đơn hàng            | Filter NULL                       |
@@ -82,6 +83,7 @@ Transformation: LTRIM/RTRIM, CAST, lọc NULL, loại duplicate theo `(order_id,
 | amount_received   | DECIMAL(18,2) | Số tiền thực nhận      | CAST, ISNULL→0                    |
 | quantity          | INT           | Số lượng               | ISNULL→0                          |
 | shipping_fee      | DECIMAL(18,2) | Phí vận chuyển         | CAST, ISNULL→0                    |
+| sub_category      | NVARCHAR(100) | Danh mục con           | LTRIM/RTRIM                       |
 
 **Dedup rule:** `ROW_NUMBER() PARTITION BY (order_id, product_name) ORDER BY revenue DESC` — giữ 1 dòng / sản phẩm / đơn hàng.
 
@@ -156,10 +158,15 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 #### `gold.Dim_Category`
 
-| Cột                  | Mô tả                 |
-| -------------------- | --------------------- |
-| **category_id** (PK) | Surrogate key INT     |
-| category_name        | Tên danh mục sản phẩm |
+**Granularity = `(category_name, sub_category_name)`** — mỗi cặp danh mục / danh mục con là 1 dòng. `Dim_Product.category_id` trỏ tới đúng cặp này.
+
+| Cột                   | Mô tả                                      |
+| --------------------- | ----------------------------------------- |
+| **category_id** (PK)  | Surrogate key INT                          |
+| category_name         | Danh mục (Skincare / Makeup / Hair Care / Khác) |
+| sub_category_name      | Danh mục con (Face Care, Body Care, Eyes, Lips, Color...) |
+
+> Nguồn: bảng mapping `Cleaned_Data/product_category_map.xlsx` (phân loại bằng Ollama + review tay), join vào Silver theo `product_name`. `UNIQUE (category_name, sub_category_name)`.
 
 ---
 
@@ -172,22 +179,14 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 ---
 
-#### `gold.Dim_Region`
-
-| Cột                | Mô tả                             |
-| ------------------ | --------------------------------- |
-| **region_id** (PK) | Surrogate key INT                 |
-| region_name        | Vùng địa lý (parse từ cột branch) |
-
----
-
 #### `gold.Dim_Province`
 
-| Cột                             | Mô tả                |
-| ------------------------------- | -------------------- |
-| **province_id** (PK)            | Surrogate key INT    |
-| province_name                   | Tỉnh/Thành phố       |
-| **region_id** (FK → Dim_Region) | Vùng địa lý (3NF FK) |
+> Hierarchy địa lý dừng ở đây: `District → Province`. **Không có `Dim_Region`** — cột `branch` (nguồn của "region" cũ) là kho/gian hàng, không phải vùng địa lý (62/63 tỉnh xuất hiện dưới cả 2 "kho").
+
+| Cột                  | Mô tả             |
+| -------------------- | ----------------- |
+| **province_id** (PK) | Surrogate key INT |
+| province_name        | Tỉnh/Thành phố (UNIQUE) |
 
 ---
 
@@ -285,7 +284,6 @@ Chỉ gồm đơn hàng **không bị hủy/hoàn trả** (`order_status NOT IN 
 | Dim_Order      | Dim_Customer     | `customer_id`               |
 | Dim_Order      | Dim_District     | `district_id`               |
 | Dim_District   | Dim_Province     | `province_id`               |
-| Dim_Province   | Dim_Region       | `region_id`                 |
 | Fact_OrderLine | Dim_Order        | `order_id`                  |
 | Fact_OrderLine | Dim_Product      | `product_id`                |
 | Dim_Product    | Dim_Category     | `category_id`               |

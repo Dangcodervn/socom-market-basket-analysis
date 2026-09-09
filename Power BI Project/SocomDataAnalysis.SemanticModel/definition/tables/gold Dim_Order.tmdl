@@ -1,0 +1,91 @@
+table 'gold Dim_Order'
+	lineageTag: 5ed4e0a3-7b38-4ca4-ac0c-d9530048924c
+
+	column order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e9c713f-83cf-4e75-8fff-b96ec4de9826
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f1013f78-ed00-42ad-9c82-b04201495c39
+		summarizeBy: none
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a06be5ac-03e4-4c78-a6c8-ef768e4e8b98
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column district_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cd35bc04-fb28-4d94-98a8-bd7fa83af328
+		summarizeBy: none
+		sourceColumn: district_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column traffic_source
+		dataType: string
+		lineageTag: 098e5617-d285-4a66-acb9-a1cc458320e8
+		summarizeBy: none
+		sourceColumn: traffic_source
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: f53e6ae2-0786-4e96-829b-ef6faf623a31
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: 4ef27307-5262-4c2c-8f76-d403778cbca3
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column distinct_products = CALCULATE ( DISTINCTCOUNT ( 'gold Fact_OrderLine'[product_id] ) )
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f844348-b6d8-4c1f-abe7-dc6882b71f80
+		summarizeBy: none
+
+	column basket_bucket = VAR n = CALCULATE ( DISTINCTCOUNT ( 'gold Fact_OrderLine'[product_id] ) ) RETURN SWITCH ( TRUE(), n = 1, "1", n = 2, "2", n = 3, "3", n >= 4, "4+", "0" )
+		dataType: string
+		lineageTag: b2854148-c0c5-47a6-8b6b-c35ab7c9502b
+		summarizeBy: none
+
+	column has_gift = IF ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) > 0, "Có quà", "Không quà" )
+		dataType: string
+		lineageTag: e9a5e863-d53c-4972-87b0-d66994acf99b
+		summarizeBy: none
+
+	partition 'gold Dim_Order' = m
+		mode: import
+		source =
+				let
+				  Source = Sql.Databases("DESKTOP-HPKUKRN\DANGSERVER"),
+				  #"Navigation 1" = Source{[Name = "SocomDataWarehouse"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Dim_Order"]}[Data]
+				in
+				  #"Navigation 2"
+
+	annotation PBI_ResultType = Table
+

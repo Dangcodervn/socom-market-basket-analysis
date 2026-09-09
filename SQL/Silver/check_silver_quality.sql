@@ -1,6 +1,6 @@
 -- ============================================================
 -- Silver/check_silver_quality.sql
--- Kiểm tra chất lượng dữ liệu Silver trước khi chạy Gold DDL
+-- Kiểm tra chất lượng dữ liệu Silver trước khi chạy sp_load_gold
 -- Chạy thủ công sau EXEC silver.sp_load_silver;
 -- ============================================================
 
@@ -58,21 +58,27 @@ SELECT 'product_category',             COUNT(*)              FROM silver.Transac
 UNION ALL
 SELECT 'order_status',                 COUNT(*)              FROM silver.Transaction_Data WHERE order_status IS NULL OR LEN(LTRIM(RTRIM(order_status))) = 0
 UNION ALL
-SELECT 'traffic_source',               COUNT(*)              FROM silver.Transaction_Data WHERE traffic_source IS NULL OR LEN(LTRIM(RTRIM(traffic_source))) = 0;
+SELECT 'traffic_source',               COUNT(*)              FROM silver.Transaction_Data WHERE traffic_source IS NULL OR LEN(LTRIM(RTRIM(traffic_source))) = 0
+UNION ALL
+SELECT 'sub_category',                  COUNT(*)              FROM silver.Transaction_Data WHERE sub_category IS NULL OR LEN(LTRIM(RTRIM(sub_category))) = 0;
+
+-- sub_category = 'UNKNOWN' → mapping còn thiếu, cần bổ sung Cleaned_Data/product_category_map.xlsx
+SELECT 'sub_category = UNKNOWN' AS metric, COUNT(*) AS row_count
+FROM silver.Transaction_Data WHERE sub_category = N'UNKNOWN';
 
 -- ============================================================
 -- 3. DUPLICATE CHECK — tách rõ duplicate theo cặp và full-record
 -- ============================================================
 PRINT '';
-PRINT '--- [3] DUPLICATE CHECK: order_id + product_name ---';
-PRINT '  duplicate_pairs: số cặp (order_id, product_name) bị trùng';
-PRINT '  duplicate_extra_rows: tổng số dòng dư = SUM(cnt - 1) theo cặp';
+PRINT '--- [3] DUPLICATE CHECK: order_id + product_name + version (= grain của Silver) ---';
+PRINT '  Kỳ vọng: TẤT CẢ = 0 (sp_load_silver đã dedup theo đúng grain này)';
+PRINT '  duplicate_pairs: số bộ (order_id, product_name, version) bị trùng';
 PRINT '  exact_duplicate_extra_rows: tổng số dòng dư khi trùng TOAN BO cot';
 
 WITH pair_counts AS (
-    SELECT order_id, product_name, COUNT(*) AS cnt
+    SELECT order_id, product_name, version, COUNT(*) AS cnt
     FROM silver.Transaction_Data
-    GROUP BY order_id, product_name
+    GROUP BY order_id, product_name, version
 ),
 full_row_counts AS (
     SELECT
@@ -82,7 +88,7 @@ full_row_counts AS (
         province, order_id, product_name, district,
         version, order_status, payment_method,
         revenue, discount_amount, total_invoice,
-        amount_received, quantity, shipping_fee,
+        amount_received, quantity, shipping_fee, sub_category,
         COUNT(*) AS cnt
     FROM silver.Transaction_Data
     GROUP BY
@@ -92,14 +98,14 @@ full_row_counts AS (
         province, order_id, product_name, district,
         version, order_status, payment_method,
         revenue, discount_amount, total_invoice,
-        amount_received, quantity, shipping_fee
+        amount_received, quantity, shipping_fee, sub_category
 )
-SELECT 'duplicate_pairs (order_id + product_name)' AS metric,
+SELECT 'duplicate_pairs (order_id + product_name + version)' AS metric,
        COUNT(*) AS metric_value
 FROM pair_counts
 WHERE cnt > 1
 UNION ALL
-SELECT 'duplicate_extra_rows (order_id + product_name)',
+SELECT 'duplicate_extra_rows (order_id + product_name + version)',
        ISNULL(SUM(cnt - 1), 0)
 FROM pair_counts
 WHERE cnt > 1
@@ -110,22 +116,24 @@ FROM full_row_counts
 WHERE cnt > 1;
 
 -- ============================================================
--- 3b. DUPLICATE PAIR DEEP DIVE — cột nào khác nhau trong các cặp trùng?
---     Mục tiêu: xác định 4,081 dòng dư là do nghiệp vụ hay lỗi dữ liệu
+-- 3b. Các bộ (order_id, product_name) còn > 1 dòng SAU khi Silver dedup theo
+--     (order_id, product_name, version) = các SKU khác màu/dung tích cùng tên trong 1 đơn.
+--     - version / revenue / quantity / discount / total_invoice KHÁC nhau là BÌNH THƯỜNG (SKU khác nhau).
+--     - order_status / payment_method / traffic_source PHẢI = 0 (thuộc tính mức đơn, không được đổi trong 1 đơn).
 -- ============================================================
 PRINT '';
-PRINT '--- [3b] DUPLICATE PAIR DEEP DIVE: cot nao khac nhau ---';
-PRINT '  count_diff_X: số cặp mà cột X có giá trị khác nhau giữa các dòng';
+PRINT '--- [3b] Cac bo (order,product) tach theo version — order-level cot phai = 0 ---';
+PRINT '  count_diff_X: số bộ mà cột X có giá trị khác nhau giữa các dòng';
 
 SELECT
-    SUM(CASE WHEN version_diff       = 1 THEN 1 ELSE 0 END) AS count_diff_version,
-    SUM(CASE WHEN status_diff        = 1 THEN 1 ELSE 0 END) AS count_diff_order_status,
-    SUM(CASE WHEN revenue_diff       = 1 THEN 1 ELSE 0 END) AS count_diff_revenue,
-    SUM(CASE WHEN quantity_diff      = 1 THEN 1 ELSE 0 END) AS count_diff_quantity,
-    SUM(CASE WHEN discount_diff      = 1 THEN 1 ELSE 0 END) AS count_diff_discount_amount,
-    SUM(CASE WHEN invoice_diff       = 1 THEN 1 ELSE 0 END) AS count_diff_total_invoice,
-    SUM(CASE WHEN payment_diff       = 1 THEN 1 ELSE 0 END) AS count_diff_payment_method,
-    SUM(CASE WHEN traffic_diff       = 1 THEN 1 ELSE 0 END) AS count_diff_traffic_source
+    ISNULL(SUM(CASE WHEN version_diff  = 1 THEN 1 ELSE 0 END), 0) AS count_diff_version,
+    ISNULL(SUM(CASE WHEN status_diff   = 1 THEN 1 ELSE 0 END), 0) AS count_diff_order_status,
+    ISNULL(SUM(CASE WHEN revenue_diff  = 1 THEN 1 ELSE 0 END), 0) AS count_diff_revenue,
+    ISNULL(SUM(CASE WHEN quantity_diff = 1 THEN 1 ELSE 0 END), 0) AS count_diff_quantity,
+    ISNULL(SUM(CASE WHEN discount_diff = 1 THEN 1 ELSE 0 END), 0) AS count_diff_discount_amount,
+    ISNULL(SUM(CASE WHEN invoice_diff  = 1 THEN 1 ELSE 0 END), 0) AS count_diff_total_invoice,
+    ISNULL(SUM(CASE WHEN payment_diff  = 1 THEN 1 ELSE 0 END), 0) AS count_diff_payment_method,
+    ISNULL(SUM(CASE WHEN traffic_diff  = 1 THEN 1 ELSE 0 END), 0) AS count_diff_traffic_source
 FROM (
     SELECT
         order_id,
@@ -291,23 +299,7 @@ LEFT JOIN (SELECT DISTINCT product_name FROM silver.Transaction_Data) p
        ON g.gift_name = p.product_name
 ORDER BY status, g.gift_name;
 
--- Tỉ lệ khớp tổng hợp
-SELECT
-    COUNT(*)                                                        AS total_distinct_gifts,
-    SUM(IIF(p.product_name IS NOT NULL, 1, 0))                     AS matched,
-    SUM(IIF(p.product_name IS NULL, 1, 0))                         AS no_match,
-    CAST(SUM(IIF(p.product_name IS NOT NULL, 1, 0)) * 100.0
-         / NULLIF(COUNT(*), 0) AS DECIMAL(5,1))                    AS match_pct
-FROM (SELECT DISTINCT gift_name FROM silver.Gift_Data) g
-LEFT JOIN (SELECT DISTINCT product_name FROM silver.Transaction_Data) p
-       ON g.gift_name = p.product_name;
-
-PRINT '';
-PRINT '====================================================';
-PRINT ' QUALITY CHECK COMPLETE';
-PRINT '====================================================';
-
--- Tỉ lệ khớp tổng hợp
+-- Tỉ lệ khớp tổng hợp + khuyến nghị
 SELECT
     COUNT(*)                                                        AS total_distinct_gifts,
     SUM(IIF(p.product_name IS NOT NULL, 1, 0))                     AS matched,
@@ -321,3 +313,8 @@ SELECT
 FROM (SELECT DISTINCT gift_name FROM silver.Gift_Data) g
 LEFT JOIN (SELECT DISTINCT product_name FROM silver.Transaction_Data) p
        ON g.gift_name = p.product_name;
+
+PRINT '';
+PRINT '====================================================';
+PRINT ' QUALITY CHECK COMPLETE';
+PRINT '====================================================';
