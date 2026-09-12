@@ -2,17 +2,17 @@ table _Measures
 	lineageTag: 0e1d43dc-71b5-4436-b77b-d3f8687faec8
 
 	measure 'Net Revenue' = SUM ( 'gold Fact_OrderLine'[amount_received] )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Revenue
 		lineageTag: 5bd3f542-8387-417e-8cf2-37c4d2858a3b
 
 	measure 'Gross Revenue' = SUM ( 'gold Fact_OrderLine'[revenue] )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Revenue
 		lineageTag: 363e43e8-aeb2-46b4-a320-afe7fe6aba81
 
 	measure 'Discount Amount' = SUM ( 'gold Fact_OrderLine'[discount_amount] )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Revenue
 		lineageTag: 96071680-69cf-440e-b6d4-a51c1d230842
 
@@ -22,7 +22,7 @@ table _Measures
 		lineageTag: 1d7defcf-6039-473f-b055-08800d269143
 
 	measure 'Gross Revenue Lost' = CALCULATE ( [Gross Revenue], 'gold Dim_Order'[order_status] = "Hủy" )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Revenue
 		lineageTag: 89102dcb-7f79-417d-b8e2-d7e47a78727b
 
@@ -47,7 +47,7 @@ table _Measures
 		lineageTag: 856ffbee-de0e-4a4c-9b8a-f475f7a20453
 
 	measure AOV = DIVIDE ( [Net Revenue], [Completed Orders] )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Basket & AOV
 		lineageTag: b7071b7b-78e7-4a8d-a332-70e5a73dfb18
 
@@ -62,12 +62,12 @@ table _Measures
 		lineageTag: 67dc66c9-e6a6-45a8-bb70-c4698ccf02d6
 
 	measure 'AOV (Gift)' = CALCULATE ( [AOV], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), NOT ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Basket & AOV
 		lineageTag: 467b3759-40b0-4bf4-87ca-b24dfff7bea6
 
 	measure 'AOV (No Gift)' = CALCULATE ( [AOV], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Basket & AOV
 		lineageTag: 9fbff281-753f-450c-a019-63685a6497a5
 
@@ -87,7 +87,7 @@ table _Measures
 		lineageTag: 3afa4ef0-9dfb-4d41-bb0d-14db805a0ec5
 
 	measure 'Net Revenue PM' = CALCULATE ( [Net Revenue], DATEADD ( 'gold Dim_Date'[date], -1, MONTH ) )
-		formatString: #,0
+		formatString: \₫#,0
 		displayFolder: Time Intelligence
 		lineageTag: dddf62b5-0f35-453f-9032-d16f3b563edd
 
@@ -110,6 +110,79 @@ table _Measures
 		formatString: 0.0%
 		displayFolder: MBA
 		lineageTag: 6e5285d6-a5ba-465c-93ad-97205a16e58d
+
+	measure 'Cross-sell Attach Rate' = VAR OrdersInCtx = CALCULATETABLE ( VALUES ( 'gold Dim_Order'[order_id] ), 'gold Dim_Order'[order_status] = "Không hủy" ) VAR Attached = FILTER ( OrdersInCtx, CALCULATE ( COUNTROWS ( SUMMARIZE ( 'gold Fact_OrderLine', 'gold Dim_Category'[sub_category_name] ) ), REMOVEFILTERS ( 'gold Dim_Category' ) ) >= 2 ) RETURN DIVIDE ( COUNTROWS ( Attached ), COUNTROWS ( OrdersInCtx ) )
+		formatString: 0.0%
+		displayFolder: Basket & AOV
+		lineageTag: 16d0899c-1332-4f2e-8ecf-25e189b5fd8d
+
+	measure 'Completed Orders MoM %' = VAR prev = CALCULATE ( [Completed Orders], DATEADD ( 'gold Dim_Date'[date], -1, MONTH ) ) RETURN DIVIDE ( [Completed Orders] - prev, prev )
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+		lineageTag: 433307d1-b4a6-4f49-b45c-0dd7911439de
+
+	measure 'AOV MoM %' = VAR prev = CALCULATE ( [AOV], DATEADD ( 'gold Dim_Date'[date], -1, MONTH ) ) RETURN DIVIDE ( [AOV] - prev, prev )
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+		lineageTag: af863d1b-b5e5-4771-bc09-7f4279e2db9e
+
+	measure 'Cancel Rate MoM %' = VAR prev = CALCULATE ( [Cancel Rate], DATEADD ( 'gold Dim_Date'[date], -1, MONTH ) ) RETURN DIVIDE ( [Cancel Rate] - prev, prev )
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+		lineageTag: fb421c82-5367-43de-8a9f-aa820b94ea6b
+
+	measure 'Net Revenue % of Category' = DIVIDE ( [Net Revenue], CALCULATE ( [Net Revenue], ALL ( 'gold Dim_Category' ) ) )
+		formatString: 0.0%
+		displayFolder: Revenue
+		lineageTag: 80499928-3706-4527-88ce-419f40d7e91e
+
+	measure 'Province Rank by Revenue' = IF ( ISBLANK ( [Net Revenue] ), BLANK (), RANKX ( ALL ( 'gold Dim_Province'[province_name] ), [Net Revenue], , DESC, DENSE ) )
+		formatString: 0
+		isHidden
+		displayFolder: Revenue
+		lineageTag: 25392806-6351-4aff-873c-75f28548e45c
+
+	measure 'Discount on Completed Orders' = CALCULATE ( [Discount Amount], 'gold Dim_Order'[order_status] = "Không hủy" )
+		formatString: \₫#,0
+		isHidden
+		displayFolder: Revenue
+		lineageTag: 8a2f1e6c-4b0d-4f2a-9c1e-7d3b5a6f2c11
+
+	measure 'Revenue Bridge Value' = SWITCH ( SELECTEDVALUE ( '_Revenue_Bridge'[Category] ), "Gross Revenue", [Gross Revenue], "− Chiết khấu", - [Discount on Completed Orders], "− Đơn hủy", - [Gross Revenue Lost], BLANK () )
+		formatString: \₫#,0
+		isHidden
+		displayFolder: Revenue
+		lineageTag: 3d7c9f0a-2e5b-4a1d-8f6c-9b0e4d2a7c88
+
+	measure 'Revenue Bridge Value (Tỷ)' = DIVIDE ( [Revenue Bridge Value], 1000000000 )
+		formatString: \₫#,0.00" Tỷ"
+		isHidden
+		displayFolder: Revenue
+		lineageTag: 6f1a2b3c-8d4e-4f5a-9b6c-7d8e9f0a1b2c
+
+	measure 'Net Revenue (Tỷ)' = DIVIDE ( [Net Revenue], 1000000000 )
+		formatString: \₫#,0.00" Tỷ"
+		isHidden
+		displayFolder: Revenue
+		lineageTag: 7a2b3c4d-9e5f-4a6b-8c7d-1e2f3a4b5c6d
+
+	measure 'Net Revenue (Triệu)' = DIVIDE ( [Net Revenue], 1000000 )
+		formatString: \₫#,0" Triệu"
+		isHidden
+		displayFolder: Revenue
+		lineageTag: 2e4f6a8c-0b1d-4e3f-a5c7-9d0e1f2a3b4c
+
+	measure 'Gross Revenue Lost (Triệu)' = DIVIDE ( [Gross Revenue Lost], 1000000 )
+		formatString: \₫#,0" Triệu"
+		isHidden
+		displayFolder: Revenue
+		lineageTag: 9d0e1f2a-3b4c-4d5e-8f6a-1b2c3d4e5f6a
+
+	measure 'AOV (Nghìn)' = DIVIDE ( [AOV], 1000 )
+		formatString: \₫#,0" Nghìn"
+		isHidden
+		displayFolder: Basket & AOV
+		lineageTag: 5c6d7e8f-1a2b-4c3d-9e0f-4a5b6c7d8e9f
 
 	column _
 		isHidden

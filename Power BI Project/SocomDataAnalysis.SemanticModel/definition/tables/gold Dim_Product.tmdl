@@ -1,10 +1,10 @@
 table 'gold Dim_Product'
-	lineageTag: 05a2a98e-b57f-419a-8935-29e149cd1d76
+	lineageTag: 27ea4c69-908a-47b1-9871-e5ceeebe61d8
 
 	column product_id
 		dataType: int64
 		formatString: 0
-		lineageTag: 32888d9d-29d3-4d7b-984e-0aaea8fe215e
+		lineageTag: 59a9a16c-56a9-4d81-84df-4bb60c87bb2f
 		summarizeBy: none
 		sourceColumn: product_id
 
@@ -12,7 +12,7 @@ table 'gold Dim_Product'
 
 	column product_name
 		dataType: string
-		lineageTag: 7aa88069-8b17-4daf-b893-6b92e2f60e17
+		lineageTag: 512bb72f-cb1c-40f4-9f21-7fcf3513f4b1
 		summarizeBy: none
 		sourceColumn: product_name
 
@@ -20,7 +20,7 @@ table 'gold Dim_Product'
 
 	column version
 		dataType: string
-		lineageTag: 6b9e73c8-b0e3-4f3e-b561-7bd4aa2a54f0
+		lineageTag: fa421db9-0894-4a3f-b182-302be42a9340
 		summarizeBy: none
 		sourceColumn: version
 
@@ -29,7 +29,7 @@ table 'gold Dim_Product'
 	column category_id
 		dataType: int64
 		formatString: 0
-		lineageTag: 5e7c080e-fe21-422e-93b6-d702b0dbdc75
+		lineageTag: 15d9bbd4-0e91-4926-bc34-767e6e624054
 		summarizeBy: none
 		sourceColumn: category_id
 
@@ -38,7 +38,7 @@ table 'gold Dim_Product'
 	column manufacturer_id
 		dataType: int64
 		formatString: 0
-		lineageTag: e21b4f2e-d4f4-449d-ab93-477a37a664b9
+		lineageTag: 6011a48c-88b2-430a-936d-d93fb1fe3666
 		summarizeBy: none
 		sourceColumn: manufacturer_id
 
@@ -53,6 +53,4 @@ table 'gold Dim_Product'
 				  #"Navigation 2" = #"Navigation 1"{[Schema = "gold", Item = "Dim_Product"]}[Data]
 				in
 				  #"Navigation 2"
-
-	annotation PBI_ResultType = Exception
 

@@ -6,29 +6,28 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation __PBI_TimeIntelligenceEnabled = 1
+annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["gold Dim_Category","gold Dim_Customer","gold Dim_Date","gold Dim_District","gold Dim_Gift","gold Dim_Manufacturer","gold Dim_Order","gold Dim_Product","gold Dim_Province","gold Fact_Gift","gold Fact_OrderLine","gold vw_MBA_Product_Pairs","gold vw_MBA_SubCategory_Pairs"]
+annotation PBI_QueryOrder = ["gold Dim_Category","gold Dim_Customer","gold Dim_Date","gold Dim_District","gold Dim_Gift","gold Dim_Manufacturer","gold Dim_Order","gold Fact_Gift","gold Fact_OrderLine","gold vw_MBA_Product_Pairs","gold vw_MBA_SubCategory_Pairs","gold Dim_Product","gold Dim_Province"]
 
 annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
 
 ref table 'gold Dim_Category'
 ref table 'gold Dim_Customer'
 ref table 'gold Dim_Date'
-ref table DateTableTemplate_762fe2ce-5f09-49ff-942e-8876db3a22e9
-ref table LocalDateTable_5343a695-2785-4689-b7fc-ad6ed3a822fe
 ref table 'gold Dim_District'
 ref table 'gold Dim_Gift'
 ref table 'gold Dim_Manufacturer'
 ref table 'gold Dim_Order'
-ref table 'gold Dim_Product'
-ref table 'gold Dim_Province'
 ref table 'gold Fact_Gift'
 ref table 'gold Fact_OrderLine'
 ref table 'gold vw_MBA_Product_Pairs'
 ref table 'gold vw_MBA_SubCategory_Pairs'
 ref table _Measures
 ref table _MBA_Pairs_Matrix
+ref table 'gold Dim_Product'
+ref table 'gold Dim_Province'
+ref table _Revenue_Bridge
 
 ref cultureInfo en-US
 

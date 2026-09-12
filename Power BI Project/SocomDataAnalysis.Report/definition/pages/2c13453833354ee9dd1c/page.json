@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "2c13453833354ee9dd1c",
+  "displayName": "3 Giỏ hàng",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#FFFFFF'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "162ff5e0983507d900ca",
+      "target": "0b65e311e271449be6c1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "af67dfde5bac1b124295",
+      "target": "0b65e311e271449be6c1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4b1f2ed519b622802d8b",
+      "target": "0b65e311e271449be6c1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "b8ef3efd18168e3941cc",
+      "target": "0b65e311e271449be6c1",
+      "type": "NoFilter"
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "e0405894785d3e14c5a3",
+  "position": {
+    "x": 1328,
+    "y": 96,
+    "z": 54000,
+    "height": 496,
+    "width": 536,
+    "tabOrder": 54000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold vw_MBA_SubCategory_Pairs"
+                    }
+                  },
+                  "Property": "item_a"
+                }
+              },
+              "queryRef": "gold vw_MBA_SubCategory_Pairs.item_a",
+              "nativeQueryRef": "item_a"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold vw_MBA_SubCategory_Pairs"
+                    }
+                  },
+                  "Property": "item_b"
+                }
+              },
+              "queryRef": "gold vw_MBA_SubCategory_Pairs.item_b",
+              "nativeQueryRef": "item_b"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold vw_MBA_SubCategory_Pairs"
+                    }
+                  },
+                  "Property": "pair_order_count"
+                }
+              },
+              "queryRef": "gold vw_MBA_SubCategory_Pairs.pair_order_count",
+              "nativeQueryRef": "pair_order_count"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold vw_MBA_SubCategory_Pairs"
+                    }
+                  },
+                  "Property": "support"
+                }
+              },
+              "queryRef": "gold vw_MBA_SubCategory_Pairs.support",
+              "nativeQueryRef": "support"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold vw_MBA_SubCategory_Pairs"
+                    }
+                  },
+                  "Property": "confidence_a_to_b"
+                }
+              },
+              "queryRef": "gold vw_MBA_SubCategory_Pairs.confidence_a_to_b",
+              "nativeQueryRef": "confidence_a_to_b"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold vw_MBA_SubCategory_Pairs"
+                    }
+                  },
+                  "Property": "lift"
+                }
+              },
+              "queryRef": "gold vw_MBA_SubCategory_Pairs.lift",
+              "nativeQueryRef": "lift"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "gold vw_MBA_SubCategory_Pairs"
+                  }
+                },
+                "Property": "lift"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Luật kết hợp (lọc pair ≥ 15)'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A2B43'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "heading": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Heading3'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filter1ae5ad0f4a3884984a21873d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold vw_MBA_SubCategory_Pairs"
+              }
+            },
+            "Property": "pair_order_count"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "gold vw_MBA_SubCategory_Pairs",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 2,
+                  "Left": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "f"
+                        }
+                      },
+                      "Property": "pair_order_count"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "15L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

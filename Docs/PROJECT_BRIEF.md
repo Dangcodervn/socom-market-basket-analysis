@@ -66,10 +66,10 @@ Kết nối: mở `Power BI Project/SocomDataAnalysis.pbip` trong Power BI Deskt
 
 ⚠ Còn 2 bảng auto date (`DateTableTemplate_…`, `LocalDateTable_…`) do tính năng Auto date/time. Nên tắt: File → Options → Data Load → bỏ tick **Auto date/time** cho file này (đã có Dim_Date chuẩn).
 
-### 5.2 Quan hệ (11, tất cả single-direction, many→one)
+### 5.2 Quan hệ (11)
 
 ```
-Fact_OrderLine[order_id]   → Dim_Order[order_id]
+Fact_OrderLine[order_id]   ↔ Dim_Order[order_id]     (BOTH — bidi, xem ghi chú)
 Fact_OrderLine[product_id] → Dim_Product[product_id]
 Dim_Product[category_id]     → Dim_Category[category_id]
 Dim_Product[manufacturer_id] → Dim_Manufacturer[manufacturer_id]
@@ -77,22 +77,25 @@ Dim_Order[customer_id] → Dim_Customer[customer_id]
 Dim_Order[date_id]     → Dim_Date[date_id]
 Dim_Order[district_id] → Dim_District[district_id]
 Dim_District[province_id] → Dim_Province[province_id]
-Fact_Gift[order_id] → Dim_Order[order_id]
+Fact_Gift[order_id] → Dim_Order[order_id]            (single)
 Fact_Gift[gift_id]  → Dim_Gift[gift_id]
-Dim_Date[date] → LocalDateTable_… (auto, sẽ biến mất khi tắt Auto date/time)
+Dim_Date[date] → LocalDateTable_… (auto)
 ```
 
-`_Measures`, `vw_MBA_*`, `_MBA_Pairs_Matrix` **không có quan hệ** (bảng tham chiếu rời — đúng thiết kế).
+> **Bidi `Fact_OrderLine ↔ Dim_Order`:** để thuộc tính product/category lọc được measure order-grain (Orders, Cancel Rate, Completed/Cancelled Orders, mẫu số AOV). Không gây vòng lặp (chỉ 1 cạnh bidi). **Hệ quả:** khi cắt theo product/category, phép đếm đơn là "đơn **chứa** nhóm X" và **không cộng dồn** qua chiều sản phẩm (Σ theo sub_category ≠ tổng). Doanh thu vẫn cộng dồn đúng. `Basket Size` / `Single-item Order %` khi cắt theo category đọc là "trong phạm vi nhóm đó".
 
-### 5.3 Measure trong `_Measures` (22, chia 6 display folder)
+`_Measures`, `vw_MBA_*`, `_MBA_Pairs_Matrix` **không có quan hệ** (bảng tham chiếu rời — đúng thiết kế).
+Hierarchy: `gold Dim_Category` có **`Category ▸ Sub-category`** (level `category_name` → `sub_category_name`).
+
+### 5.3 Measure trong `_Measures` (24, chia 6 display folder)
 
 | Folder | Measure (tên · công thức rút gọn) |
 | --- | --- |
 | **Revenue** | Net Revenue `SUM(Fact_OrderLine[amount_received])` · Gross Revenue `SUM([revenue])` · Discount Amount `SUM([discount_amount])` · Units Sold `SUM([quantity])` · Gross Revenue Lost `CALCULATE([Gross Revenue], Dim_Order[order_status]="Hủy")` |
 | **Orders** | Orders `DISTINCTCOUNT(Dim_Order[order_id])` · Cancelled Orders `CALCULATE([Orders],…="Hủy")` · Completed Orders `CALCULATE([Orders],…="Không hủy")` · Cancel Rate `DIVIDE([Cancelled Orders],[Orders])` |
-| **Basket & AOV** | AOV `DIVIDE([Net Revenue],[Completed Orders])` · Basket Size (AVERAGEX distinct product_id / đơn, lọc "Không hủy") · Single-item Order % · AOV (Gift) · AOV (No Gift) |
+| **Basket & AOV** | AOV `DIVIDE([Net Revenue],[Completed Orders])` · Basket Size (AVERAGEX distinct product_id / đơn, lọc "Không hủy") · Single-item Order % · AOV (Gift) · AOV (No Gift) · **Cross-sell Attach Rate** (của đơn hoàn tất chứa nhóm X, % đơn chạm ≥2 sub_category — sort tăng dần = dư địa cross-sell) |
 | **Customer** | Customers `DISTINCTCOUNT(Dim_Order[customer_id])` · Repeat Customers (khách ≥2 đơn) · Repeat Customer Rate |
-| **Time Intelligence** | Net Revenue PM `CALCULATE([Net Revenue], DATEADD(Dim_Date[date],-1,MONTH))` · Net Revenue MoM % |
+| **Time Intelligence** | Net Revenue PM `CALCULATE([Net Revenue], DATEADD(Dim_Date[date],-1,MONTH))` · Net Revenue MoM % · **Completed Orders MoM %** |
 | **MBA** | Pair Priority Score `MAX(lift)*LN(MAX(pair_order_count))` · Avg Lift · Max Confidence |
 
 `order_status` chỉ có 2 giá trị: **"Hủy"** và **"Không hủy"**.

@@ -1,14 +1,3 @@
-relationship 60a4e92d-f23e-4cc0-bce5-ebc9d165cc07
-	joinOnDateBehavior: datePartOnly
-	fromColumn: 'gold Dim_Date'.date
-	toColumn: LocalDateTable_5343a695-2785-4689-b7fc-ad6ed3a822fe.Date
-
-relationship fdc06435-e801-4e02-9c40-85b7997d2892
-	fromColumn: 'gold Dim_District'.province_id
-	toColumn: 'gold Dim_Province'.province_id
-
-	annotation PBI_IsFromSource = FS
-
 relationship e2887bb9-fd38-46b6-8567-47d1cd0a711c
 	fromColumn: 'gold Dim_Order'.customer_id
 	toColumn: 'gold Dim_Customer'.customer_id
@@ -27,18 +16,6 @@ relationship 2ee1d95c-651b-452f-b274-714ae16681a1
 
 	annotation PBI_IsFromSource = FS
 
-relationship 3ce3c930-fb29-42b2-82e6-8245887fa842
-	fromColumn: 'gold Dim_Product'.category_id
-	toColumn: 'gold Dim_Category'.category_id
-
-	annotation PBI_IsFromSource = FS
-
-relationship c6320daf-c68c-49bd-8020-300f2fe6fb23
-	fromColumn: 'gold Dim_Product'.manufacturer_id
-	toColumn: 'gold Dim_Manufacturer'.manufacturer_id
-
-	annotation PBI_IsFromSource = FS
-
 relationship 1bc97470-139b-4def-8bd8-d8bdb6e560b7
 	fromColumn: 'gold Fact_Gift'.gift_id
 	toColumn: 'gold Dim_Gift'.gift_id
@@ -52,12 +29,31 @@ relationship de8f7fb1-32c1-4a9c-9052-9dae95f0c641
 	annotation PBI_IsFromSource = FS
 
 relationship 9a85a384-5dad-46ed-9684-988f479489e4
+	crossFilteringBehavior: bothDirections
 	fromColumn: 'gold Fact_OrderLine'.order_id
 	toColumn: 'gold Dim_Order'.order_id
 
 	annotation PBI_IsFromSource = FS
 
-relationship 12484985-c35b-40ef-9b2a-51296d342809
+relationship 5213a6be-56a9-4bdb-8b5e-e0c0d16a4e2f
+	fromColumn: 'gold Dim_Product'.category_id
+	toColumn: 'gold Dim_Category'.category_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship b32250cc-62cb-42f8-a9e6-92e06ac196a6
+	fromColumn: 'gold Dim_Product'.manufacturer_id
+	toColumn: 'gold Dim_Manufacturer'.manufacturer_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 4d7d0c3b-1d1b-4b39-bdd8-0568b77f7f1c
+	fromColumn: 'gold Dim_District'.province_id
+	toColumn: 'gold Dim_Province'.province_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 4ae5f618-fd8a-4ab4-bed7-7b1d458b8005
 	fromColumn: 'gold Fact_OrderLine'.product_id
 	toColumn: 'gold Dim_Product'.product_id
 

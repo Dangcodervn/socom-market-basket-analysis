@@ -2,14 +2,14 @@
 	"name": "Power BI Theme Generator - BIBB.PRO v2.05",
 	"$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.156.json",
 	"dataColors": [
-		"#FFF7F3",
-		"#FDE0DD",
-		"#FCC5C0",
-		"#FA9FB5",
-		"#F768A1",
-		"#DD3497",
-		"#AE017E",
-		"#7A0177"
+		"#C51B7D",
+		"#DE77AE",
+		"#F1B6DA",
+		"#FDE0EF",
+		"#E6F5D0",
+		"#B8E186",
+		"#7FBC41",
+		"#4D9221"
 	],
 	"textClasses": {
 		"callout": {
@@ -38,10 +38,10 @@
 	"bad": "#ee1c25",
 	"neutral": "#949599",
 	"good": "#38b64b",
-	"maximum": "#FFF7F3",
-	"minimum": "#FA9FB5",
-	"center": "#FDE0DD",
-	"tableAccent": "#7A0177",
+	"maximum": "#C51B7D",
+	"minimum": "#FDE0EF",
+	"center": "#DE77AE",
+	"tableAccent": "#4D9221",
 	"foreground": "#0A2B43",
 	"background": "#FFFFFF",
 	"backgroundLight": "#F1F3F6",
@@ -310,7 +310,7 @@
 						"$id": "hover",
 						"fillColor": {
 							"solid": {
-								"color": "#7A01771A"
+								"color": "#4D92211A"
 							}
 						}
 					},
@@ -420,7 +420,7 @@
 						"$id": "default",
 						"lineColor": {
 							"solid": {
-								"color": "#7A017766"
+								"color": "#4D922166"
 							}
 						},
 						"weight": 1
@@ -913,7 +913,7 @@
 						"horizontalAlignment": "center",
 						"fontColor": {
 							"solid": {
-								"color": "#7A0177"
+								"color": "#4D9221"
 							}
 						}
 					},
@@ -939,7 +939,7 @@
 						"horizontalAlignment": "center",
 						"fontColor": {
 							"solid": {
-								"color": "#7A0177"
+								"color": "#4D9221"
 							}
 						}
 					},
@@ -988,7 +988,7 @@
 						"$id": "hover",
 						"fillColor": {
 							"solid": {
-								"color": "#7A017766"
+								"color": "#4D922166"
 							}
 						},
 						"transparency": 0
@@ -2176,7 +2176,7 @@
 						"$id": "hover",
 						"fillColor": {
 							"solid": {
-								"color": "#7A017766"
+								"color": "#4D922166"
 							}
 						},
 						"transparency": 0
@@ -2919,7 +2919,7 @@
 						"$id": "hover",
 						"fillColor": {
 							"solid": {
-								"color": "#7A017766"
+								"color": "#4D922166"
 							}
 						},
 						"transparency": 0
@@ -3118,7 +3118,7 @@
 						},
 						"backColorSecondary": {
 							"solid": {
-								"color": "#7A01770A"
+								"color": "#4D92210A"
 							}
 						},
 						"fontColorPrimary": {
@@ -3319,7 +3319,7 @@
 						},
 						"backColorSecondary": {
 							"solid": {
-								"color": "#7A01770A"
+								"color": "#4D92210A"
 							}
 						},
 						"fontColor": {

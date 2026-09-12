@@ -26,6 +26,17 @@ table 'gold Dim_Category'
 
 		annotation SummarizationSetBy = Automatic
 
+	hierarchy 'Category ▸ Sub-category'
+		lineageTag: 62a77600-e2e8-432a-9d7f-4de296b9d00b
+
+		level Category
+			lineageTag: 4e9eb167-1f69-4d77-81f5-2c7769ee9970
+			column: category_name
+
+		level Sub-category
+			lineageTag: 6c60cd21-ae02-48f3-b97f-a239309d151c
+			column: sub_category_name
+
 	partition 'gold Dim_Category' = m
 		mode: import
 		source =

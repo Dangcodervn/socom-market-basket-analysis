@@ -1,10 +1,10 @@
 table 'gold Dim_Province'
-	lineageTag: e6633739-77c7-43b1-8fcd-143b8c29740d
+	lineageTag: 3a02b818-05d7-4d45-b31c-b5a90031e7f3
 
 	column province_id
 		dataType: int64
 		formatString: 0
-		lineageTag: 4da7fdc8-9e67-4271-9d07-a82f24a3292f
+		lineageTag: 2a9151d1-8802-4377-a5fb-12aa32f9edbc
 		summarizeBy: none
 		sourceColumn: province_id
 
@@ -12,7 +12,7 @@ table 'gold Dim_Province'
 
 	column province_name
 		dataType: string
-		lineageTag: c3cd0dfe-77f0-42a8-80f0-1715a296bcda
+		lineageTag: 38a5ba6c-f6e6-455c-a851-8d2272f0ba42
 		summarizeBy: none
 		sourceColumn: province_name
 
@@ -28,5 +28,7 @@ table 'gold Dim_Province'
 				in
 				  #"Navigation 2"
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
 

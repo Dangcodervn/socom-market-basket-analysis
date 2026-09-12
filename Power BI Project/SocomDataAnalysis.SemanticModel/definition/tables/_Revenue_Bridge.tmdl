@@ -1,0 +1,24 @@
+table _Revenue_Bridge
+	lineageTag: 6de120c1-1158-413a-9d17-a9cb8a454d72
+
+	column Category
+		lineageTag: c9ed5322-3463-43d1-9410-7e735acc66ca
+		isNameInferred
+		sourceColumn: [Category]
+		sortByColumn: SortOrder
+
+	column SortOrder
+		isHidden
+		lineageTag: 254a3d59-30c4-4694-994c-67764f4368c9
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+	partition _Revenue_Bridge = calculated
+		mode: import
+		source =
+				UNION (
+				    ROW ( "Category", "Gross Revenue", "SortOrder", 1 ),
+				    ROW ( "Category", "− Chiết khấu", "SortOrder", 2 ),
+				    ROW ( "Category", "− Đơn hủy", "SortOrder", 3 )
+				)
+

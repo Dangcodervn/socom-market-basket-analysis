@@ -19,11 +19,6 @@ table 'gold Dim_Date'
 		summarizeBy: none
 		sourceColumn: date
 
-		variation Variation
-			isDefault
-			relationship: 60a4e92d-f23e-4cc0-bce5-ebc9d165cc07
-			defaultHierarchy: LocalDateTable_5343a695-2785-4689-b7fc-ad6ed3a822fe.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -51,6 +46,7 @@ table 'gold Dim_Date'
 		lineageTag: ec882e45-887a-4610-9e29-2a0b294a7397
 		summarizeBy: none
 		sourceColumn: quarter_name
+		sortByColumn: quarter
 
 		annotation SummarizationSetBy = Automatic
 
@@ -68,6 +64,7 @@ table 'gold Dim_Date'
 		lineageTag: 55acef4d-cd6f-4d03-9e49-05db3c7208c7
 		summarizeBy: none
 		sourceColumn: month_name
+		sortByColumn: month
 
 		annotation SummarizationSetBy = Automatic
 
@@ -94,6 +91,7 @@ table 'gold Dim_Date'
 		lineageTag: ff5ead93-985c-47f1-bbae-297c21f81185
 		summarizeBy: none
 		sourceColumn: week_day_name
+		sortByColumn: week_day
 
 		annotation SummarizationSetBy = Automatic
 

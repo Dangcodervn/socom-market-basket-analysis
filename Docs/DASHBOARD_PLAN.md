@@ -180,7 +180,7 @@
 | Histogram giỏ | Column theo bucket | `Dim_Order[basket_bucket]` (calc column ✓ đã tạo) · Y = `[Orders]` · cột "1" tô accent | |
 | AOV × kênh | Combo | `[AOV]` (line) + `[Completed Orders]` (cột) × `Dim_Order[traffic_source]` | |
 | Hiệu ứng quà | Column | `[AOV]` & `[Basket Size]` × `Dim_Order[has_gift]` (calc column ✓) | |
-| **Bảng dư địa cross-sell** | Table, sort dư địa desc | `Dim_Category[sub_category_name]` · % đơn ≥2 SP · `[AOV]` · (dư địa = 1 − %≥2SP, hoặc %1-SP theo nhóm) | nhóm dư địa cao = đẩy mua kèm trước |
+| **Bảng dư địa cross-sell** | Table, sort `[Cross-sell Attach Rate]` **tăng dần** | `Dim_Category[sub_category_name]` · `[Completed Orders]` · `[Cross-sell Attach Rate]` · `[AOV]` | attach rate thấp = dư địa cao = đẩy mua kèm trước |
 
 > So-what ("45% đơn lẻ + đơn có quà +30% AOV → dư địa cross-sell lớn → ngưỡng freeship / gợi ý mua kèm") → **báo cáo Word**.
 
@@ -368,7 +368,7 @@ Design Brief:
           - { id: page_title, region: header, kind: textbox, text: "Tổng quan — doanh thu ổn định, đòn bẩy nằm ở hủy đơn và giỏ nhỏ" }
           - { id: slicer_month, region: filters, kind: slicer, field_bindings: "'gold Dim_Date'[month_name]", purpose: "Kỳ xem" }
           - { id: kpi_net_rev,   region: kpi, kind: cardVisual, purpose: "Doanh thu net + MoM", field_bindings: ["'_Measures'[Net Revenue]", "'_Measures'[Net Revenue MoM %]"] }
-          - { id: kpi_completed, region: kpi, kind: cardVisual, purpose: "Đơn hoàn tất + MoM", field_bindings: ["'_Measures'[Completed Orders]", "'_Measures'[Net Revenue MoM %]"] }
+          - { id: kpi_completed, region: kpi, kind: cardVisual, purpose: "Đơn hoàn tất + MoM", field_bindings: ["'_Measures'[Completed Orders]", "'_Measures'[Completed Orders MoM %]"] }
           - { id: kpi_aov,       region: kpi, kind: cardVisual, purpose: "AOV + MoM", field_bindings: ["'_Measures'[AOV]", "'_Measures'[Net Revenue MoM %]"] }
           - { id: kpi_cancel,    region: kpi, kind: cardVisual, purpose: "Cancel Rate + MoM (tăng = đỏ)", field_bindings: ["'_Measures'[Cancel Rate]"] }
           - { id: kpi_repeat,    region: kpi, kind: cardVisual, purpose: "Repeat Customer Rate + MoM", field_bindings: ["'_Measures'[Repeat Customer Rate]"] }
@@ -456,7 +456,7 @@ Design Brief:
           - { id: basket_histogram, region: mid_left, kind: columnChart, purpose: "Phân bố kích thước giỏ (bucket)", field_bindings: { axis: "'gold Dim_Order'[basket_bucket]", values: "'_Measures'[Orders]" }, notes: "cột '1' tô accent, còn lại taupe" }
           - { id: aov_by_channel, region: mid_right, kind: lineClusteredColumnComboChart, purpose: "AOV (line) + số đơn (cột) theo kênh", field_bindings: { axis: "'gold Dim_Order'[traffic_source]", column_values: "'_Measures'[Completed Orders]", line_values: "'_Measures'[AOV]" } }
           - { id: gift_effect, region: low_left, kind: columnChart, purpose: "AOV & Basket Size: có quà vs không quà", field_bindings: { axis: "'gold Dim_Order'[has_gift]", values: ["'_Measures'[AOV]", "'_Measures'[Basket Size]"] } }
-          - { id: crosssell_headroom, region: low_right, kind: tableEx, purpose: "Dư địa cross-sell theo sub_category — nhóm nên đẩy trước", field_bindings: { columns: ["'gold Dim_Category'[sub_category_name]", "'_Measures'[AOV]"] }, sort: "headroom desc", notes: "cột dư địa = 1 − (% đơn ≥2 SP của nhóm); tạo measure phụ khi authoring" }
+          - { id: crosssell_headroom, region: low_right, kind: tableEx, purpose: "Dư địa cross-sell theo sub_category — nhóm nên đẩy trước", field_bindings: { columns: ["'gold Dim_Category'[sub_category_name]", "'_Measures'[Completed Orders]", "'_Measures'[Cross-sell Attach Rate]", "'_Measures'[AOV]"] }, sort: "'_Measures'[Cross-sell Attach Rate] asc", notes: "attach rate thấp = dư địa cao" }
         space_audit:
           content_cell_count: 120
           placed_cell_count: 120

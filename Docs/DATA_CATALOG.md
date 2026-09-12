@@ -150,7 +150,6 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 | version                                     | Phiên bản / dung tích (thuộc tính SKU)   |
 | **category_id** (FK → Dim_Category)         | ID danh mục (3NF, bỏ category_name thừa) |
 | **manufacturer_id** (FK → Dim_Manufacturer) | ID nhà sản xuất (3NF)                    |
-| avg_price                                   | Giá trung bình = AVG(revenue / quantity) |
 
 > Mỗi `(product_name, version)` → 1 dòng duy nhất. Category/Manufacturer chọn theo nhóm xuất hiện nhiều nhất.
 
