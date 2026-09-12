@@ -3,9 +3,9 @@
   "name": "0d43edf23b88c6199b8e",
   "position": {
     "x": 22.153846153846153,
-    "y": 703.01538461538462,
+    "y": 688.24615384615379,
     "z": 7000,
-    "height": 358.89230769230767,
+    "height": 373.66153846153844,
     "width": 742.89230769230767,
     "tabOrder": 7000
   },
@@ -87,6 +87,13 @@
                   "Value": "true"
                 }
               }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             }
           }
         }
@@ -99,7 +106,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0A2B43'"
+                      "Value": "'#38B64B'"
                     }
                   }
                 }
@@ -109,9 +116,8 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 3,
-                      "Percent": 0
+                    "Literal": {
+                      "Value": "'#DF4047'"
                     }
                   }
                 }
@@ -121,8 +127,9 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Literal": {
-                      "Value": "'#C51B7D'"
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.2
                     }
                   }
                 }
@@ -137,10 +144,76 @@
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "'0'"
+                  "Value": "0D"
+                }
+              }
+            },
+            "labelOrientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Auto'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
                 }
               }
             }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A2B43'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
           }
         }
       ],
@@ -454,34 +527,6 @@
         },
         "type": "Advanced",
         "howCreated": "User"
-      },
-      {
-        "name": "641c9fdaddc0ee72084b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Revenue_Bridge"
-              }
-            },
-            "Property": "Category"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "c14af9ba2cc64c63241e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Revenue Bridge Value (Tỷ)"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

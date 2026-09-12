@@ -184,6 +184,11 @@ table _Measures
 		displayFolder: Basket & AOV
 		lineageTag: 5c6d7e8f-1a2b-4c3d-9e0f-4a5b6c7d8e9f
 
+	measure 'Order Line Count' = IF ( NOT ISBLANK ( [Gross Revenue] ), CALCULATE ( COUNTROWS ( 'gold Fact_OrderLine' ), ALLEXCEPT ( 'gold Dim_Order', 'gold Dim_Order'[order_id], 'gold Dim_Order'[order_status] ) ) )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: a6f9fb06-5d0a-48a4-ae93-08c5524db093
+
 	column _
 		isHidden
 		lineageTag: 13cdafb7-73d8-450f-bab4-2eda363d78b5

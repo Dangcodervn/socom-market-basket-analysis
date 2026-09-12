@@ -565,37 +565,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5eded63543bcab278109",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Date"
-              }
-            },
-            "Property": "month_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "7fa4e6344bcb90752401",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Completed Orders"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

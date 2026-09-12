@@ -565,37 +565,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "43e71a109d5ad738a15d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Date"
-              }
-            },
-            "Property": "month_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "a0a61dced9199ddcd0ae",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Customers"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

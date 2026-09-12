@@ -3,9 +3,9 @@
   "name": "b7f240c09e0329ef274b",
   "position": {
     "x": 1434.0923076923077,
-    "y": 344.12307692307689,
+    "y": 333.78461538461539,
     "z": 9000,
-    "height": 717.78461538461534,
+    "height": 728.12307692307684,
     "width": 471.13846153846151,
     "tabOrder": 8000
   },
@@ -157,18 +157,25 @@
                         }
                       },
                       "FillRule": {
-                        "linearGradient2": {
+                        "linearGradient3": {
                           "min": {
                             "color": {
                               "Literal": {
-                                "Value": "'#FDE0EF'"
+                                "Value": "'#D9BFDD'"
+                              }
+                            }
+                          },
+                          "mid": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#A569BD'"
                               }
                             }
                           },
                           "max": {
                             "color": {
                               "Literal": {
-                                "Value": "'#C51B7D'"
+                                "Value": "'#702F8C'"
                               }
                             }
                           },
@@ -535,62 +542,6 @@
         },
         "type": "Categorical",
         "howCreated": "User"
-      },
-      {
-        "name": "c36c17b3060097db5b9e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Province"
-              }
-            },
-            "Property": "province_name_map"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "38473836913674e59da1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Completed Orders"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c7460c6bd790237a4e62",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Customers"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c7bbe664221c64c91130",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Net Revenue"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

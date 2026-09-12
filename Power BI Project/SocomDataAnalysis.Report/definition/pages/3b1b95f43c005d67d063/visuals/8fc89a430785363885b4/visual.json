@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "8fc89a430785363885b4",
   "position": {
-    "x": 804.92307692307691,
-    "y": 703.01538461538462,
+    "x": 793.10769230769222,
+    "y": 688.24615384615379,
     "z": 12000,
-    "height": 358.89230769230767,
-    "width": 595.19999999999993,
+    "height": 373.66153846153844,
+    "width": 607.01538461538462,
     "tabOrder": 9000
   },
   "visual": {
@@ -225,7 +225,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Doanh thu theo kênh'"
+                  "Value": "'Doanh thu theo nguồn'"
                 }
               }
             },
@@ -412,7 +412,7 @@
         "howCreated": "User"
       },
       {
-        "name": "0883047e0b00433ee8eb",
+        "name": "c251e6789ae048c08ae3",
         "field": {
           "Column": {
             "Expression": {
@@ -426,7 +426,7 @@
         "type": "Categorical"
       },
       {
-        "name": "04086e628aede5d3e890",
+        "name": "4f78623a906d80dc91e0",
         "field": {
           "Measure": {
             "Expression": {

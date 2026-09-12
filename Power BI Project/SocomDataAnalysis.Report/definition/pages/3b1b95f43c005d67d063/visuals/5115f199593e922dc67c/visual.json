@@ -3,9 +3,9 @@
   "name": "5115f199593e922dc67c",
   "position": {
     "x": 22.153846153846153,
-    "y": 344.12307692307689,
+    "y": 333.78461538461539,
     "z": 5000,
-    "height": 320.49230769230769,
+    "height": 330.83076923076919,
     "width": 859.56923076923067,
     "tabOrder": 5000
   },
@@ -589,48 +589,6 @@
         },
         "type": "Advanced",
         "howCreated": "User"
-      },
-      {
-        "name": "0a1f7ab4c993b105b7cc",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Date"
-              }
-            },
-            "Property": "month_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "dd26bf4761794bede3d9",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Net Revenue (Triệu)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "9d47c12f3edbb42b0a86",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Net Revenue MoM %"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }
