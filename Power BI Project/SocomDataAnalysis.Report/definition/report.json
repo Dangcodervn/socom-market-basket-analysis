@@ -2,19 +2,19 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "baseTheme": {
-      "name": "CY26SU05",
+      "name": "CY18SU07",
       "reportVersionAtImport": {
-        "visual": "2.9.0",
-        "report": "3.3.0",
-        "page": "2.3.1"
+        "visual": "1.8.23",
+        "report": "2.0.23",
+        "page": "1.3.23"
       },
       "type": "SharedResources"
     },
     "customTheme": {
-      "name": "socom-bibb-3c4817.json",
+      "name": "Power_BI_Theme_Generator_-_BIB9969223874223756.json",
       "reportVersionAtImport": {
-        "visual": "2.9.0",
-        "report": "3.3.0",
+        "visual": "2.10.0",
+        "report": "3.4.0",
         "page": "2.3.1"
       },
       "type": "RegisteredResources"
@@ -54,8 +54,8 @@
       "type": "SharedResources",
       "items": [
         {
-          "name": "CY26SU05",
-          "path": "BaseThemes/CY26SU05.json",
+          "name": "CY18SU07",
+          "path": "BaseThemes/CY18SU07.json",
           "type": "BaseTheme"
         }
       ]
@@ -65,8 +65,8 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "socom-bibb-3c4817.json",
-          "path": "socom-bibb-3c4817.json",
+          "name": "Power_BI_Theme_Generator_-_BIB9969223874223756.json",
+          "path": "Power_BI_Theme_Generator_-_BIB9969223874223756.json",
           "type": "CustomTheme"
         },
         {

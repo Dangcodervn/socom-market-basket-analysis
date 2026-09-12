@@ -18,6 +18,11 @@ table 'gold Dim_Province'
 
 		annotation SummarizationSetBy = Automatic
 
+	column province_name_map = SWITCH ( 'gold Dim_Province'[province_name], "Hồ Chí Minh", "TP. Hồ Chí Minh", "Bình Dương", "Bình  Dương", "Khánh Hòa", "Khánh  Hòa", "Kiên Giang", "Kiên  Giang", "Ninh Thuận", "Ninh  Thuận", "Quảng Nam", "Quảng  Nam", "Quảng Ngãi", "Quảng  Ngãi", "Thái Nguyên", "Thái  Nguyên", "Thừa Thiên Huế", "Thừa Thiên-Huế", 'gold Dim_Province'[province_name] )
+		dataType: string
+		isHidden
+		lineageTag: 4c7673e1-fdae-44f8-a7d5-b2be8170a500
+
 	partition 'gold Dim_Province' = m
 		mode: import
 		source =

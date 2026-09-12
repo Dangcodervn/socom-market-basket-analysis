@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "ff0413911c5cfed54674",
   "position": {
-    "x": 787.19999999999993,
-    "y": 175.75384615384615,
+    "x": 793.5,
+    "y": 204,
     "z": 14000,
-    "height": 118.15384615384615,
-    "width": 203.8153846153846,
+    "height": 75,
+    "width": 175.5,
     "tabOrder": 2000
   },
   "visual": {
@@ -97,6 +97,13 @@
                 }
               }
             },
+            "horizontalAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
+                }
+              }
+            },
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
@@ -129,10 +136,17 @@
       "label": [
         {
           "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'AOV'"
+                  "Value": "'Net Revenue'"
                 }
               }
             },
@@ -308,6 +322,13 @@
                   "Value": "true"
                 }
               }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
             }
           }
         }
@@ -315,10 +336,17 @@
       "spacing": [
         {
           "properties": {
-            "verticalSpacing": {
+            "customizeSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "-6D"
+                  "Value": "true"
+                }
+              }
+            },
+            "spaceBelowTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
                 }
               }
             }
@@ -329,7 +357,7 @@
             "verticalSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "8D"
                 }
               }
             }
@@ -514,6 +542,131 @@
             }
           }
         }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "'12'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "titleFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'foreground'"
+                    }
+                  }
+                }
+              }
+            },
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'foreground'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "'12'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
+            },
+            "actionFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'foreground'"
+                    }
+                  }
+                }
+              }
+            },
+            "themedBackground": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'backgroundLight'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       ]
     }
   },
@@ -533,6 +686,20 @@
         },
         "type": "Advanced",
         "howCreated": "User"
+      },
+      {
+        "name": "0b4a39252d00a84992ab",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AOV (Nghìn)"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

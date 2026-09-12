@@ -48,20 +48,6 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "gold Dim_Order"
-                    }
-                  },
-                  "Property": "payment_method"
-                }
-              },
-              "queryRef": "gold Dim_Order.payment_method",
-              "nativeQueryRef": "payment_method"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
                       "Entity": "gold Dim_Province"
                     }
                   },
@@ -70,6 +56,20 @@
               },
               "queryRef": "gold Dim_Province.province_name",
               "nativeQueryRef": "province_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold Dim_Category"
+                    }
+                  },
+                  "Property": "sub_category_name"
+                }
+              },
+              "queryRef": "gold Dim_Category.sub_category_name",
+              "nativeQueryRef": "sub_category_name"
             },
             {
               "field": {
@@ -92,16 +92,16 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "_Measures"
+                    "Entity": "gold Dim_Order"
                   }
                 },
-                "Property": "Gross Revenue"
+                "Property": "order_id"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       }

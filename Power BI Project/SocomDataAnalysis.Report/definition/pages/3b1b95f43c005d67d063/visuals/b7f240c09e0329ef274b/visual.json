@@ -23,11 +23,11 @@
                       "Entity": "gold Dim_Province"
                     }
                   },
-                  "Property": "province_name"
+                  "Property": "province_name_map"
                 }
               },
-              "queryRef": "gold Dim_Province.province_name",
-              "nativeQueryRef": "province_name"
+              "queryRef": "gold Dim_Province.province_name_map",
+              "nativeQueryRef": "province_name_map"
             }
           ]
         },
@@ -522,7 +522,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "a867007317b0723026bc",
+        "name": "55dc0a12040e18960088",
         "field": {
           "Column": {
             "Expression": {
@@ -533,10 +533,25 @@
             "Property": "province_name"
           }
         },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "c36c17b3060097db5b9e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold Dim_Province"
+              }
+            },
+            "Property": "province_name_map"
+          }
+        },
         "type": "Categorical"
       },
       {
-        "name": "b9d9fd743c65729090d7",
+        "name": "38473836913674e59da1",
         "field": {
           "Measure": {
             "Expression": {
@@ -550,7 +565,7 @@
         "type": "Advanced"
       },
       {
-        "name": "91f0ad109932e3a9e7a2",
+        "name": "c7460c6bd790237a4e62",
         "field": {
           "Measure": {
             "Expression": {
@@ -564,7 +579,7 @@
         "type": "Advanced"
       },
       {
-        "name": "6c05771aa5e3871d7bb7",
+        "name": "c7bbe664221c64c91130",
         "field": {
           "Measure": {
             "Expression": {

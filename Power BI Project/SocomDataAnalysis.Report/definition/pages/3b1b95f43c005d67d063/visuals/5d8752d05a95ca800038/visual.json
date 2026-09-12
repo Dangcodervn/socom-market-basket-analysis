@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "5d8752d05a95ca800038",
   "position": {
-    "x": 32.492307692307691,
-    "y": 175.75384615384615,
+    "x": 43.5,
+    "y": 211.5,
     "z": 15000,
-    "height": 118.15384615384615,
-    "width": 166.8923076923077,
+    "height": 58.5,
+    "width": 154.5,
     "tabOrder": 10000
   },
   "visual": {
@@ -121,6 +121,13 @@
                   }
                 }
               }
+            },
+            "horizontalAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
+                }
+              }
             }
           },
           "selector": {
@@ -219,6 +226,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Net Revenue'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -524,6 +538,20 @@
         },
         "type": "Advanced",
         "howCreated": "User"
+      },
+      {
+        "name": "c3f44c061366e545a607",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Net Revenue (Tỷ)"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

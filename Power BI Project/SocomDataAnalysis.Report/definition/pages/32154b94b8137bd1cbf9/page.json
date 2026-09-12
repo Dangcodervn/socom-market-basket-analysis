@@ -33,11 +33,6 @@
   },
   "visualInteractions": [
     {
-      "source": "2b7ba7983c49a7ea2304",
-      "target": "6d0e423ad660bd8e4d0a",
-      "type": "NoFilter"
-    },
-    {
       "source": "7491b5a491c06a03a6f3",
       "target": "6d0e423ad660bd8e4d0a",
       "type": "NoFilter"

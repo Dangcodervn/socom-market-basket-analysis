@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "a75f5d797b580125cf70",
   "position": {
-    "x": 1200.7384615384615,
-    "y": 175.75384615384615,
+    "x": 1201.5,
+    "y": 214.5,
     "z": 11000,
-    "height": 118.15384615384615,
-    "width": 144.73846153846154,
+    "height": 58.5,
+    "width": 129,
     "tabOrder": 3000
   },
   "visual": {
@@ -97,6 +97,13 @@
                 }
               }
             },
+            "horizontalAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
+                }
+              }
+            },
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
@@ -129,10 +136,17 @@
       "label": [
         {
           "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Cancel Rate'"
+                  "Value": "'Net Revenue'"
                 }
               }
             },
@@ -308,6 +322,13 @@
                   "Value": "true"
                 }
               }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
             }
           }
         }
@@ -315,10 +336,17 @@
       "spacing": [
         {
           "properties": {
-            "verticalSpacing": {
+            "customizeSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "-6D"
+                  "Value": "true"
+                }
+              }
+            },
+            "spaceBelowTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
                 }
               }
             }
@@ -329,7 +357,7 @@
             "verticalSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "8D"
                 }
               }
             }
@@ -514,7 +542,150 @@
             }
           }
         }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "'12'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "titleFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'foreground'"
+                    }
+                  }
+                }
+              }
+            },
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'foreground'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "'12'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
+            },
+            "actionFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'foreground'"
+                    }
+                  }
+                }
+              }
+            },
+            "themedBackground": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'backgroundLight'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "7089b66d172aa6ee323b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cancel Rate"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

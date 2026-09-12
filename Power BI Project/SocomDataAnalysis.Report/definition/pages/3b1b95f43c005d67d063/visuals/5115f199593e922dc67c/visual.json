@@ -6,7 +6,7 @@
     "y": 344.12307692307689,
     "z": 5000,
     "height": 320.49230769230769,
-    "width": 892.06153846153836,
+    "width": 859.56923076923067,
     "tabOrder": 5000
   },
   "visual": {
@@ -87,6 +87,56 @@
                   "Value": "'0'"
                 }
               }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A2B43'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "titleBold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secTitleBold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secLabelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A2B43'"
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -158,18 +208,6 @@
                 }
               }
             },
-            "backgroundColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 4,
-                      "Percent": 0.6
-                    }
-                  }
-                }
-              }
-            },
             "labelContentLayout": {
               "expr": {
                 "Literal": {
@@ -197,8 +235,9 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Literal": {
-                      "Value": "'#0A2B43'"
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": -0.25
                     }
                   }
                 }
@@ -207,6 +246,22 @@
           },
           "selector": {
             "metadata": "_Measures.Net Revenue MoM %"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.4
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       ],
@@ -230,6 +285,37 @@
           },
           "selector": {
             "id": "1"
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A2B43'"
+                    }
+                  }
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
           }
         }
       ]
@@ -505,7 +591,7 @@
         "howCreated": "User"
       },
       {
-        "name": "0a9106c015451978dd5e",
+        "name": "0a1f7ab4c993b105b7cc",
         "field": {
           "Column": {
             "Expression": {
@@ -519,7 +605,7 @@
         "type": "Categorical"
       },
       {
-        "name": "fdc1d9f4ecca100a8362",
+        "name": "dd26bf4761794bede3d9",
         "field": {
           "Measure": {
             "Expression": {
@@ -533,7 +619,7 @@
         "type": "Advanced"
       },
       {
-        "name": "dae801f835652bb7abca",
+        "name": "9d47c12f3edbb42b0a86",
         "field": {
           "Measure": {
             "Expression": {
