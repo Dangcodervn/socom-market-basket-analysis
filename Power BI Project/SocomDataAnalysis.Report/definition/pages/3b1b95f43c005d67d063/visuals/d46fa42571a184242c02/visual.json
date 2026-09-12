@@ -669,20 +669,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "14cba343107509c7e046",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Net Revenue (Tỷ)"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

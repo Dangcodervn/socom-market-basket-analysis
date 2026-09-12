@@ -7,7 +7,7 @@
     "z": 11000,
     "height": 378.09230769230766,
     "width": 815.26153846153841,
-    "tabOrder": 43000
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -300,51 +300,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "9e9d60879ac1600c05d5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Order"
-              }
-            },
-            "Property": "has_gift"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "3517ba119c7499812d38",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "AOV"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "da8be1039a15ce9a9013",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Basket Size"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

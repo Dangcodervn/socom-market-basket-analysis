@@ -7,7 +7,7 @@
     "z": 12000,
     "height": 378.09230769230766,
     "width": 1042.7076923076922,
-    "tabOrder": 44000
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "tableEx",
@@ -417,62 +417,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "0e2c359e480a113d5adb",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Category"
-              }
-            },
-            "Property": "sub_category_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "d893933163a063c4e0e2",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Completed Orders"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "74ed0e25a53120c7e332",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cross-sell Attach Rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c605611dac0d5e8d1e6d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "AOV"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

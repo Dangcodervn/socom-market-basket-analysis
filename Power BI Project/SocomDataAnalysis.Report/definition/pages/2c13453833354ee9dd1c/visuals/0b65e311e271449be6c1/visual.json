@@ -7,7 +7,7 @@
     "z": 8000,
     "height": 152.12307692307692,
     "width": 1883.0769230769229,
-    "tabOrder": 40000
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -355,79 +355,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "e3384ba0dce26c6da301",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "AOV"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "65ba85fae68c30133030",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Basket Size"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "dae986be0261b3c5804e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Single-item Order %"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d0548080c3a2026b8089",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "AOV (Gift)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "53e5eba64eaac4cc409d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "AOV (No Gift)"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

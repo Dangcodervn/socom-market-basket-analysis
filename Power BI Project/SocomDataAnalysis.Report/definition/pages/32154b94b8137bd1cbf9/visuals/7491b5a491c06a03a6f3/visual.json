@@ -359,37 +359,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "f3ef998f1494c8c71e3a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Order"
-              }
-            },
-            "Property": "traffic_source"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "36ab4fe0d0ac03ed601b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cancel Rate"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

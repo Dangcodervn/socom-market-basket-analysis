@@ -452,34 +452,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "51c8835447399e2dc010",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Category"
-              }
-            },
-            "Property": "sub_category_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "89ed3f20d2c93982c802",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cancel Rate"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "z": 9000,
     "height": 319.01538461538462,
     "width": 816.73846153846148,
-    "tabOrder": 41000
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "columnChart",
@@ -282,37 +282,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "91b8cbce1c691001eac4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Order"
-              }
-            },
-            "Property": "basket_bucket"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "3891bcefd42140109a6b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Orders"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

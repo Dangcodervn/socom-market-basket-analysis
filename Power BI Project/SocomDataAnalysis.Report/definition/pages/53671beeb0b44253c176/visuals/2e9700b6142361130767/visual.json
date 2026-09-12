@@ -252,23 +252,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "f58aa37fc0dcd7d0c487",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_MBA_Pairs_Matrix"
-              }
-            },
-            "Property": "pair_order_count"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

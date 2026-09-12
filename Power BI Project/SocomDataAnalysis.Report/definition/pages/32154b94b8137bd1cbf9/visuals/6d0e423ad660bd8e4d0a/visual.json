@@ -361,51 +361,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "f5ecb6c014cbe44590dc",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cancel Rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5c6fbaff520e599ab298",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cancelled Orders"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d1abb89f7a303db981ec",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Gross Revenue Lost"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
