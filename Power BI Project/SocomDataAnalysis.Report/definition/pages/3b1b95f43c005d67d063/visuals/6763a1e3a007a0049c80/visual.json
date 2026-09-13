@@ -308,7 +308,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Giá trị đơn trung bình'"
+                  "Value": "'Giá trị trung bình mỗi đơn'"
                 }
               }
             },

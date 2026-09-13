@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "f7e54f5495cff9c8d738",
   "position": {
-    "x": 910,
-    "y": 38,
+    "x": 1121.9452887537993,
+    "y": 39.392097264437687,
     "z": 21000,
-    "height": 76,
-    "width": 205,
+    "height": 75.866261398176292,
+    "width": 204.25531914893617,
     "tabOrder": 21000
   },
   "visual": {
@@ -23,11 +23,11 @@
                       "Entity": "gold Dim_Category"
                     }
                   },
-                  "Property": "category_name"
+                  "Property": "sub_category_name"
                 }
               },
-              "queryRef": "gold Dim_Category.category_name",
-              "nativeQueryRef": "category_name",
+              "queryRef": "gold Dim_Category.sub_category_name",
+              "nativeQueryRef": "sub_category_name",
               "active": true
             }
           ]
@@ -106,6 +106,81 @@
                   }
                 }
               }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "strictSingleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineWeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selectionIcon": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -160,8 +235,9 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Literal": {
-                      "Value": "'#949599'"
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0
                     }
                   }
                 }

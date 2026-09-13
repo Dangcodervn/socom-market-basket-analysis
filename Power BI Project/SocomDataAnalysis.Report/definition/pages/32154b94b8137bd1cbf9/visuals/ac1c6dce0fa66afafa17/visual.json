@@ -7,7 +7,7 @@
     "z": 12000,
     "height": 736.98461538461538,
     "width": 825.59999999999991,
-    "tabOrder": 11000
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "tableEx",
@@ -97,16 +97,16 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "_Measures"
+                    "Entity": "gold Dim_Order"
                   }
                 },
-                "Property": "Gross Revenue"
+                "Property": "order_id"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       }
@@ -177,6 +177,13 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

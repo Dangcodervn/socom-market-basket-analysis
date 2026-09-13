@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "c4e83a833cfbdb5d56b4",
   "position": {
-    "x": 302,
-    "y": 936,
-    "z": 56000,
-    "height": 144,
-    "width": 1368,
-    "tabOrder": 56000
+    "x": -1000,
+    "y": -1000,
+    "z": 7000,
+    "height": 10,
+    "width": 10,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "tableEx",
@@ -421,62 +421,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "4b4557653650a27e14e4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold vw_MBA_SubCategory_Pairs"
-              }
-            },
-            "Property": "item_a"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "064b0d33aa7bc58c55b4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold vw_MBA_SubCategory_Pairs"
-              }
-            },
-            "Property": "item_b"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "c60f94750db07b34092e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold vw_MBA_SubCategory_Pairs"
-              }
-            },
-            "Property": "lift"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c3c28080c94b7c252c54",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Pair Priority Score"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

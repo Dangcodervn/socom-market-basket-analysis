@@ -209,6 +209,51 @@ table _Measures
 		displayFolder: Gift
 		lineageTag: 1d5121be-cd47-484f-b83a-1c5d8979e82b
 
+	measure 'Completed Orders (Gift)' = CALCULATE ( [Completed Orders], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), NOT ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: ab335934-aff8-4401-9a70-af71a66d7451
+
+	measure 'Completed Orders (No Gift)' = CALCULATE ( [Completed Orders], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: df5dc383-8a93-439c-9843-fd558c51addc
+
+	measure 'Basket Size (Gift)' = CALCULATE ( [Basket Size], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), NOT ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: 0.00
+		displayFolder: Basket & AOV
+		lineageTag: d35685b6-9aa9-4647-963c-1890b2f0fb70
+
+	measure 'Basket Size (No Gift)' = CALCULATE ( [Basket Size], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: 0.00
+		displayFolder: Basket & AOV
+		lineageTag: f3b74ae6-9a0e-4542-8c95-da387ef66974
+
+	measure 'Net Revenue (Gift)' = CALCULATE ( [Net Revenue], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), NOT ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: \₫#,0
+		displayFolder: Revenue
+		lineageTag: b8a835e0-adb4-48a0-b0c7-d98899c92fa6
+
+	measure 'Net Revenue (No Gift)' = CALCULATE ( [Net Revenue], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: \₫#,0
+		displayFolder: Revenue
+		lineageTag: 60a49d14-fbf8-4add-991e-93be06880a02
+
+	measure 'Single-item Order % (Gift)' = CALCULATE ( [Single-item Order %], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), NOT ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: 0.0%
+		displayFolder: Basket & AOV
+		lineageTag: ce26229f-18b4-41cf-a35a-017f3b28908c
+
+	measure 'Single-item Order % (No Gift)' = CALCULATE ( [Single-item Order %], FILTER ( VALUES ( 'gold Dim_Order'[order_id] ), ISBLANK ( CALCULATE ( COUNTROWS ( 'gold Fact_Gift' ) ) ) ) )
+		formatString: 0.0%
+		displayFolder: Basket & AOV
+		lineageTag: 28d18bd1-e47a-4407-90f9-2b343eca1c95
+
+	measure 'Pair Priority Score (Product)' = VAR l = MAX ( 'gold vw_MBA_Product_Pairs'[lift] ) VAR n = MAX ( 'gold vw_MBA_Product_Pairs'[pair_order_count] ) RETURN IF ( n > 0, l * LN ( n ) )
+		formatString: 0.00
+		displayFolder: MBA
+		lineageTag: b817181f-801e-4cc0-984a-669995616126
+
 	column _
 		isHidden
 		lineageTag: 13cdafb7-73d8-450f-bab4-2eda363d78b5

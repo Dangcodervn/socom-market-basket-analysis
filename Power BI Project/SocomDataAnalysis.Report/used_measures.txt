@@ -1,0 +1,31 @@
+AOV
+AOV (Gift)
+AOV (Nghìn)
+AOV (No Gift)
+Basket Size
+Basket Size (Gift)
+Basket Size (No Gift)
+Cancel Rate
+Cancelled Orders
+Completed Orders
+Completed Orders (Gift)
+Completed Orders (No Gift)
+Cross-sell Attach Rate
+Customers
+Gross Revenue
+Gross Revenue Lost
+Net Revenue
+Net Revenue (Gift)
+Net Revenue (No Gift)
+Net Revenue (Triệu)
+Net Revenue (Tỷ)
+Net Revenue MoM %
+Order Line Count
+Pair Priority Score
+Pair Priority Score (Product)
+Revenue Bridge Value
+Revenue Bridge Value (Tỷ)
+Single-item Order %
+Single-item Order % (Gift)
+Single-item Order % (No Gift)
+TOTAL: 30

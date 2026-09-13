@@ -66,8 +66,8 @@
                 }
               },
               "queryRef": "_Measures.AOV",
-              "nativeQueryRef": "Giá trị đơn trung bình",
-              "displayName": "Giá trị đơn trung bình"
+              "nativeQueryRef": "Giá trị trung bình mỗi đơn",
+              "displayName": "Giá trị trung bình mỗi đơn"
             }
           ]
         }
@@ -812,51 +812,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "e0f53d800c5d3b05537d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold Dim_Order"
-              }
-            },
-            "Property": "traffic_source"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "33a7f850c49e312ca868",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Completed Orders"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d364bfc35723b3590014",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "AOV"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

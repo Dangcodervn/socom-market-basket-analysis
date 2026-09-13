@@ -7,7 +7,7 @@
     "z": 4000,
     "height": 152.12307692307692,
     "width": 1883.0769230769229,
-    "tabOrder": 3000
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -398,51 +398,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "eaa69a219a70be0a675e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cancel Rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "95ce9de05ed7a6e2973a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cancelled Orders"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "e88d0ad88e1bc2ac7d0b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Gross Revenue Lost"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

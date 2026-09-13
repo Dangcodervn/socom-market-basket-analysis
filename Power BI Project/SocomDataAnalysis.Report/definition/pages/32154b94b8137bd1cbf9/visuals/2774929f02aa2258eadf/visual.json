@@ -7,7 +7,7 @@
     "z": 6000,
     "height": 367.75384615384615,
     "width": 519.876923076923,
-    "tabOrder": 5000
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "donutChart",
@@ -176,7 +176,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Tỷ lệ hủy theo phân nhóm'"
+                  "Value": "'Tỷ lệ hủy theo phân nhóm con'"
                 }
               }
             },
