@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "_Measures.Cancel Rate",
-              "nativeQueryRef": "Cancel Rate"
+              "nativeQueryRef": "Tỷ lệ huỷ đơn",
+              "displayName": "Tỷ lệ huỷ đơn"
             },
             {
               "field": {
@@ -41,7 +42,8 @@
                 }
               },
               "queryRef": "_Measures.Gross Revenue Lost",
-              "nativeQueryRef": "Gross Revenue Lost"
+              "nativeQueryRef": "Doanh thu ròng bị mất",
+              "displayName": "Doanh thu ròng bị mất"
             },
             {
               "field": {
@@ -55,7 +57,8 @@
                 }
               },
               "queryRef": "_Measures.Cancelled Orders",
-              "nativeQueryRef": "Cancelled Orders"
+              "nativeQueryRef": "Số đơn bị huỷ",
+              "displayName": "Số đơn bị huỷ"
             }
           ]
         }
@@ -173,6 +176,40 @@
               "expr": {
                 "Literal": {
                   "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A2B43'"
+                    }
+                  }
                 }
               }
             }
@@ -361,5 +398,51 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "eaa69a219a70be0a675e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cancel Rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "95ce9de05ed7a6e2973a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cancelled Orders"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e88d0ad88e1bc2ac7d0b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Gross Revenue Lost"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -308,7 +308,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Completed Order'"
+                  "Value": "'Số đơn hoàn thành'"
                 }
               }
             },

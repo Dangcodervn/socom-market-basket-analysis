@@ -308,7 +308,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Total Customers'"
+                  "Value": "'Tổng khách hàng'"
                 }
               }
             },

@@ -1,39 +1,34 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "4b1f2ed519b622802d8b",
+  "name": "p3gifttable01",
   "position": {
-    "x": 22.153846153846153,
-    "y": 679.38461538461536,
-    "z": 11000,
-    "height": 378.09230769230766,
-    "width": 815.26153846153841,
-    "tabOrder": 10000
+    "x": 663.13846153846146,
+    "y": 347.07692307692304,
+    "z": 13000,
+    "height": 732.55384615384617,
+    "width": 1242.0923076923077,
+    "tabOrder": 12000
   },
   "visual": {
-    "visualType": "lineClusteredColumnComboChart",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "gold Dim_Order"
+                      "Entity": "gold Dim_Gift"
                     }
                   },
-                  "Property": "has_gift"
+                  "Property": "gift_name"
                 }
               },
-              "queryRef": "gold Dim_Order.has_gift",
-              "nativeQueryRef": "has_gift",
-              "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
+              "queryRef": "gold Dim_Gift.gift_name",
+              "nativeQueryRef": "gift_name"
+            },
             {
               "field": {
                 "Measure": {
@@ -42,16 +37,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "AOV"
+                  "Property": "Gift Count"
                 }
               },
-              "queryRef": "_Measures.AOV",
-              "nativeQueryRef": "AOV"
-            }
-          ]
-        },
-        "Y2": {
-          "projections": [
+              "queryRef": "_Measures.Gift Count",
+              "nativeQueryRef": "Gift Count"
+            },
             {
               "field": {
                 "Measure": {
@@ -60,15 +51,95 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Basket Size"
+                  "Property": "Orders with Gift"
                 }
               },
-              "queryRef": "_Measures.Basket Size",
-              "nativeQueryRef": "Basket Size"
+              "queryRef": "_Measures.Orders with Gift",
+              "nativeQueryRef": "Orders with Gift"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "% Share of Gift Orders"
+                }
+              },
+              "queryRef": "_Measures.% Share of Gift Orders",
+              "nativeQueryRef": "% Share of Gift Orders"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "AOV (by Gift)"
+                }
+              },
+              "queryRef": "_Measures.AOV (by Gift)",
+              "nativeQueryRef": "AOV (by Gift)"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "gold Dim_Gift"
+                  }
+                },
+                "Property": "gift_name"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -84,7 +155,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'AOV & Basket Size: có quà vs không quà'"
+                  "Value": "'Chi tiết sản phẩm quà tặng'"
                 }
               }
             },
@@ -300,5 +371,79 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5a0f9db2ca10598d1cc5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold Dim_Gift"
+              }
+            },
+            "Property": "gift_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a9d5edf1766707977049",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Gift Count"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "444d8a3ed848da942770",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Orders with Gift"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1d7a0db6026c0873b20b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "% Share of Gift Orders"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bca19412590814c32900",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AOV (by Gift)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

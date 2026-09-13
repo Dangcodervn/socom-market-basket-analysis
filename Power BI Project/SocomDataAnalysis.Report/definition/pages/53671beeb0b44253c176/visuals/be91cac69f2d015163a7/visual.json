@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "be91cac69f2d015163a7",
   "position": {
-    "x": 22.666666666666668,
-    "y": 593.33333333333337,
+    "x": 1307.0769230769231,
+    "y": 28.061538461538461,
     "z": 51000,
-    "height": 357.33333333333331,
-    "width": 256,
+    "height": 85.661538461538456,
+    "width": 256.98461538461538,
     "tabOrder": 51000
   },
   "visual": {
@@ -41,7 +41,7 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "'Dropdown'"
                 }
               }
             }
@@ -70,7 +70,15 @@
       ],
       "general": [
         {
-          "properties": {}
+          "properties": {
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -252,5 +260,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "7a5a021ac0c36a6e0533",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_MBA_Pairs_Matrix"
+              }
+            },
+            "Property": "item_x"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

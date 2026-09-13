@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "gold Dim_Order.traffic_source",
-              "nativeQueryRef": "traffic_source",
-              "active": true
+              "nativeQueryRef": "Nguồn Traffic",
+              "active": true,
+              "displayName": "Nguồn Traffic"
             }
           ]
         },
@@ -46,7 +47,8 @@
                 }
               },
               "queryRef": "_Measures.Completed Orders",
-              "nativeQueryRef": "Completed Orders"
+              "nativeQueryRef": "Số đơn hoàn thành",
+              "displayName": "Số đơn hoàn thành"
             }
           ]
         },
@@ -64,7 +66,8 @@
                 }
               },
               "queryRef": "_Measures.AOV",
-              "nativeQueryRef": "AOV"
+              "nativeQueryRef": "Giá trị đơn trung bình",
+              "displayName": "Giá trị đơn trung bình"
             }
           ]
         }

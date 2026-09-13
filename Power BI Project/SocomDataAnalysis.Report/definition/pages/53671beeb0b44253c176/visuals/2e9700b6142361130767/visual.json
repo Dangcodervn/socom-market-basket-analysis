@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "2e9700b6142361130767",
   "position": {
-    "x": 22.153846153846153,
-    "y": 159.50769230769231,
+    "x": 986.58461538461529,
+    "y": 28.061538461538461,
     "z": 50000,
-    "height": 409.10769230769228,
+    "height": 97.476923076923072,
     "width": 255.50769230769228,
     "tabOrder": 50000
   },
@@ -252,5 +252,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "84b8bd248e4bde04a749",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_MBA_Pairs_Matrix"
+              }
+            },
+            "Property": "pair_order_count"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

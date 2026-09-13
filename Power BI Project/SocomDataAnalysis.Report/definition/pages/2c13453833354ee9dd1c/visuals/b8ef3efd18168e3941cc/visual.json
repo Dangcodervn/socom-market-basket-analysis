@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "b8ef3efd18168e3941cc",
   "position": {
-    "x": 862.52307692307693,
-    "y": 679.38461538461536,
+    "x": 22.153846153846153,
+    "y": 636.55384615384617,
     "z": 12000,
-    "height": 378.09230769230766,
-    "width": 1042.7076923076922,
+    "height": 443.07692307692304,
+    "width": 620.30769230769226,
     "tabOrder": 11000
   },
   "visual": {
@@ -78,13 +78,13 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "_Measures"
+                    "Entity": "gold Dim_Category"
                   }
                 },
-                "Property": "Cross-sell Attach Rate"
+                "Property": "sub_category_name"
               }
             },
             "direction": "Ascending"
@@ -417,6 +417,62 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "18368b95b7b0369d8a02",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold Dim_Category"
+              }
+            },
+            "Property": "sub_category_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "efb0a9bcc109557c25b0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Completed Orders"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4487b6788e2c406aa556",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cross-sell Attach Rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6d2d86001032a8ece443",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AOV"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

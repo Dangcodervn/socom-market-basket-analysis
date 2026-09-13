@@ -3,7 +3,7 @@
   "name": "0b65e311e271449be6c1",
   "position": {
     "x": 22.153846153846153,
-    "y": 159.50769230769231,
+    "y": 160.98461538461538,
     "z": 8000,
     "height": 152.12307692307692,
     "width": 1883.0769230769229,
@@ -355,5 +355,79 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a97982b7976e62a9a161",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AOV"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "dfc553c2cc4c0580d0ec",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Basket Size"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "35d129ff1e46085800ed",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Single-item Order %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "147f76d500ecd52303a8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AOV (Gift)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ba7675fc500500a1901d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AOV (No Gift)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

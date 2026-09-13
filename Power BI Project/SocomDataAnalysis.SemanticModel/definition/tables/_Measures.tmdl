@@ -189,6 +189,26 @@ table _Measures
 		displayFolder: Orders
 		lineageTag: a6f9fb06-5d0a-48a4-ae93-08c5524db093
 
+	measure 'Gift Count' = COUNTROWS ( 'gold Fact_Gift' )
+		formatString: #,0
+		displayFolder: Gift
+		lineageTag: a8a0ef08-9667-4d88-8096-f44270180392
+
+	measure 'Orders with Gift' = DISTINCTCOUNT ( 'gold Fact_Gift'[order_id] )
+		formatString: #,0
+		displayFolder: Gift
+		lineageTag: 31989117-a70c-4838-a9b1-6b37b75f08af
+
+	measure '% Share of Gift Orders' = DIVIDE ( [Orders with Gift], CALCULATE ( [Completed Orders], 'gold Dim_Order'[has_gift] = "Có quà" ) )
+		formatString: 0.0%
+		displayFolder: Gift
+		lineageTag: 760c843e-5d20-48ad-8efe-eba5c06192af
+
+	measure 'AOV (by Gift)' = CALCULATE ( [AOV], CROSSFILTER ( 'gold Fact_Gift'[order_id], 'gold Dim_Order'[order_id], Both ) )
+		formatString: \₫#,0
+		displayFolder: Gift
+		lineageTag: 1d5121be-cd47-484f-b83a-1c5d8979e82b
+
 	column _
 		isHidden
 		lineageTag: 13cdafb7-73d8-450f-bab4-2eda363d78b5

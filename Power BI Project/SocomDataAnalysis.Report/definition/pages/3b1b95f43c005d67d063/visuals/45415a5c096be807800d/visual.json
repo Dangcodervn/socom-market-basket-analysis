@@ -308,7 +308,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Cancel Rate'"
+                  "Value": "'Tỷ kệ huỷ đơn'"
                 }
               }
             },

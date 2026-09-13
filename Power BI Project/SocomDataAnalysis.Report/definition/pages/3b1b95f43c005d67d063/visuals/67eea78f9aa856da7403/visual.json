@@ -266,7 +266,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Net Revenue'"
+                  "Value": "'Doanh thu thuần'"
                 }
               }
             },

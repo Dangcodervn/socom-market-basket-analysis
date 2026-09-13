@@ -308,7 +308,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'AOV'"
+                  "Value": "'Giá trị đơn trung bình'"
                 }
               }
             },

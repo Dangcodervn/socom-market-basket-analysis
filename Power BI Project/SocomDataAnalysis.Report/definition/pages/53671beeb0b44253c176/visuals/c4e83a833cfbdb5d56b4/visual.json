@@ -421,6 +421,62 @@
             }
           ]
         }
+      },
+      {
+        "name": "4b4557653650a27e14e4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold vw_MBA_SubCategory_Pairs"
+              }
+            },
+            "Property": "item_a"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "064b0d33aa7bc58c55b4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold vw_MBA_SubCategory_Pairs"
+              }
+            },
+            "Property": "item_b"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c60f94750db07b34092e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold vw_MBA_SubCategory_Pairs"
+              }
+            },
+            "Property": "lift"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c3c28080c94b7c252c54",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Pair Priority Score"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }
