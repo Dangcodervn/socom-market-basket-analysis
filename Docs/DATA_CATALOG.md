@@ -1,4 +1,4 @@
-# SOCOM Data Warehouse — Data Catalog
+# SOCOM Data Warehouse: Data Catalog
 
 > Mô tả chi tiết tất cả bảng và view trong hệ thống Data Warehouse  
 > Database: `SocomDataWarehouse`
@@ -64,9 +64,9 @@ Transformation: LTRIM/RTRIM, CAST, lọc NULL, loại duplicate theo `(order_id,
 | customer          | NVARCHAR(255) | Tên khách hàng         | LTRIM/RTRIM                       |
 | customer_email    | NVARCHAR(255) | Email khách hàng       | LTRIM/RTRIM                       |
 | date              | DATE          | Ngày đặt hàng          | Giữ nguyên                        |
-| **order_year**    | INT           | Năm đặt hàng           | YEAR(date) — derived              |
-| **order_month**   | INT           | Tháng đặt hàng         | MONTH(date) — derived             |
-| **order_quarter** | INT           | Quý đặt hàng           | DATEPART(QUARTER, date) — derived |
+| **order_year**    | INT           | Năm đặt hàng           | YEAR(date): derived              |
+| **order_month**   | INT           | Tháng đặt hàng         | MONTH(date): derived             |
+| **order_quarter** | INT           | Quý đặt hàng           | DATEPART(QUARTER, date): derived |
 | traffic_source    | NVARCHAR(100) | Kênh bán hàng          | LTRIM/RTRIM                       |
 | branch            | NVARCHAR(100) | Kho/gian hàng          | LTRIM/RTRIM (không đưa vào Gold)  |
 | product_category  | NVARCHAR(100) | Danh mục sản phẩm      | LTRIM/RTRIM                       |
@@ -85,7 +85,7 @@ Transformation: LTRIM/RTRIM, CAST, lọc NULL, loại duplicate theo `(order_id,
 | shipping_fee      | DECIMAL(18,2) | Phí vận chuyển         | CAST, ISNULL→0                    |
 | sub_category      | NVARCHAR(100) | Danh mục con           | LTRIM/RTRIM                       |
 
-**Dedup rule:** `ROW_NUMBER() PARTITION BY (order_id, product_name) ORDER BY revenue DESC` — giữ 1 dòng / sản phẩm / đơn hàng.
+**Dedup rule:** `ROW_NUMBER() PARTITION BY (order_id, product_name, version) ORDER BY revenue DESC`: giữ 1 dòng / SKU / đơn hàng (gồm `version` để không gộp nhầm 2 SKU khác màu/dung tích cùng tên).
 
 ### `silver.Gift_Data`
 
@@ -105,8 +105,8 @@ Transformation: LTRIM/RTRIM, CAST, lọc NULL, loại duplicate theo `(order_id,
 
 ## GOLD LAYER
 
-**Chỉ có Views** — không load dữ liệu. Tự cập nhật khi Silver thay đổi.  
-**Data Model: Snowflake Schema (3NF)** — Tất cả Dim có surrogate key INT; Fact chỉ lưu FK IDs + measures.
+**Bảng vật lý** (DROP & CREATE qua `ddl_gold_tables.sql`, nạp lại bằng MERGE/TRUNCATE+INSERT qua `sp_load_gold`): trừ 2 view MBA ở cuối, không materialize, tự tính lại từ `Fact_OrderLine` mỗi lần query.  
+**Data Model: Snowflake Schema (3NF)**: Tất cả Dim có surrogate key INT; Fact chỉ lưu FK IDs + measures.
 
 ### DIMENSION VIEWS
 
@@ -157,7 +157,7 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 #### `gold.Dim_Category`
 
-**Granularity = `(category_name, sub_category_name)`** — mỗi cặp danh mục / danh mục con là 1 dòng. `Dim_Product.category_id` trỏ tới đúng cặp này.
+**Granularity = `(category_name, sub_category_name)`**: mỗi cặp danh mục / danh mục con là 1 dòng. `Dim_Product.category_id` trỏ tới đúng cặp này.
 
 | Cột                   | Mô tả                                      |
 | --------------------- | ----------------------------------------- |
@@ -180,7 +180,7 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 #### `gold.Dim_Province`
 
-> Hierarchy địa lý dừng ở đây: `District → Province`. **Không có `Dim_Region`** — cột `branch` (nguồn của "region" cũ) là kho/gian hàng, không phải vùng địa lý (62/63 tỉnh xuất hiện dưới cả 2 "kho").
+> Hierarchy địa lý dừng ở đây: `District → Province`. **Không có `Dim_Region`**: cột `branch` (nguồn của "region" cũ) là kho/gian hàng, không phải vùng địa lý (62/63 tỉnh xuất hiện dưới cả 2 "kho").
 
 | Cột                  | Mô tả             |
 | -------------------- | ----------------- |
@@ -230,7 +230,7 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 #### `gold.Fact_OrderLine`
 
-**Grain = 1 sản phẩm / 1 đơn hàng.** Chỉ có 2 FK + 4 measures — grain sạch hoàn toàn.
+**Grain = 1 sản phẩm / 1 đơn hàng.** Chỉ có 2 FK + 4 measures: grain sạch hoàn toàn.
 
 | Cột                               | Mô tả                        |
 | --------------------------------- | ---------------------------- |
@@ -247,7 +247,7 @@ Dãy ngày **liên tục** từ MIN → MAX date trong Silver (không bỏ ngày
 
 #### `gold.Fact_Gift`
 
-Map đơn hàng ↔ quà tặng. **Chỉ giữ 2 FK IDs (3NF thuần)** — date / customer / status lấy qua `Fact_Gift → Dim_Order`.
+Map đơn hàng ↔ quà tặng. **Chỉ giữ 2 FK IDs (3NF thuần)**: date / customer / status lấy qua `Fact_Gift → Dim_Order`.
 
 | Cột                         | Mô tả                  |
 | --------------------------- | ---------------------- |
@@ -256,22 +256,33 @@ Map đơn hàng ↔ quà tặng. **Chỉ giữ 2 FK IDs (3NF thuần)** — date
 
 ---
 
-### FLAT / MBA VIEWS
+### MBA VIEWS
 
-#### `gold.Order_Products`
+2 view **không materialize**, tự tính lại từ `Fact_OrderLine` mỗi lần query. Cả 2 chỉ tính trên đơn **"Không hủy"** (lọc `LEN(order_status) > 3`, vì `order_status` chỉ có 2 giá trị `"Hủy"`/`"Không hủy"`). `lift` đối xứng (không phân biệt a→b hay b→a) nên chỉ có 1 cột; `confidence` có hướng nên có 2 cột. **Chỉ nên tin support/confidence/lift khi `pair_order_count ≥ ~15-20`.**
 
-Subset của `Fact_OrderLine` dùng cho **Market Basket Analysis**.  
-Chỉ gồm đơn hàng **không bị hủy/hoàn trả** (`order_status NOT IN ('Đã hủy', 'Hoàn hàng')`).
+#### `gold.vw_MBA_SubCategory_Pairs`
 
-| Cột               | Mô tả        |
-| ----------------- | ------------ |
-| order_id          | Mã đơn hàng  |
-| product_name      | Tên sản phẩm |
-| category_name     | Danh mục     |
-| manufacturer_name | Nhà sản xuất |
-| date              | Ngày         |
-| year              | Năm          |
-| month_name        | Tháng (chữ)  |
+Item = `sub_category_name` (~10 giá trị → ma trận đặc, số ổn định). **Đây là output MBA đáng tin**, dùng làm nguồn chính cho dashboard.
+
+| Cột | Mô tả |
+| --- | --- |
+| item_a / item_b | Cặp sub_category (tam giác: `item_a < item_b`, không trùng cặp/đảo chiều) |
+| pair_order_count | Số đơn có cả A và B |
+| item_a_orders / item_b_orders | Số đơn chứa riêng A / riêng B |
+| support | `pair_order_count / tổng đơn` |
+| confidence_a_to_b / confidence_b_to_a | `P(mua B \| đã mua A)` và ngược lại |
+| lift | `pair_order_count × tổng đơn / (item_a_orders × item_b_orders)`: >1 bổ trợ, =1 độc lập, <1 thay thế |
+
+#### `gold.vw_MBA_Product_Pairs`
+
+Item = 3 từ đầu của `product_name` (gộp thô biến thể SKU cùng dòng sản phẩm): **giữ thô có chủ đích** để mỗi cặp còn đủ đơn (data mỏng, ~4.3K giỏ hàng "Không hủy"). Dùng để gợi ý theo hướng, **không coi số liệu ở cấp này là chắc chắn** như cấp sub_category.
+
+| Cột | Mô tả |
+| --- | --- |
+| product_a / product_b | Cặp tên rút gọn sản phẩm (tam giác, `product_a < product_b`) |
+| pair_order_count | Số đơn có cả A và B |
+| product_a_orders / product_b_orders | Số đơn chứa riêng A / riêng B |
+| support · confidence_a_to_b · confidence_b_to_a · lift | Công thức giống `vw_MBA_SubCategory_Pairs`, thay item bằng product |
 
 ---
 
@@ -289,4 +300,5 @@ Chỉ gồm đơn hàng **không bị hủy/hoàn trả** (`order_status NOT IN 
 | Dim_Product    | Dim_Manufacturer | `manufacturer_id`           |
 | Fact_Gift      | Dim_Order        | `order_id`                  |
 | Fact_Gift      | Dim_Gift         | `gift_id`                   |
-| Order_Products | Fact_OrderLine   | subset (JOIN qua Dim_Order) |
+
+`vw_MBA_Product_Pairs` và `vw_MBA_SubCategory_Pairs` không join tới Dim/Fact khác: tự query trực tiếp từ `Fact_OrderLine` + `Dim_Product`(+`Dim_Category`) + `Dim_Order`, self-join nội bộ theo `order_id` để dựng cặp.
