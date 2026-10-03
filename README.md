@@ -202,4 +202,8 @@ Không có `Dim_Region` vì `branch` = kho/gian hàng, không đủ dữ liệu 
 
 ## Tech Stack
 
-**SQL Server** (T-SQL, stored procedure, MERGE, dynamic SQL cho Medallion Bronze/Silver/Gold) · **Python / pandas / Jupyter** (ETL Raw Excel → Cleaned CSV) · **Power BI Desktop** (semantic model TMDL, DAX, dashboard PBIR/PBIP) · Git.
+- **SQL Server**: T-SQL, stored procedure, MERGE, dynamic SQL cho Medallion Bronze/Silver/Gold
+- **Python / pandas / Jupyter**: ETL Raw Excel → Cleaned CSV
+- **Ollama**: chạy LLM local (`qwen2.5:7b-instruct`) để map sản phẩm sang category
+- **Power BI Desktop**: semantic model TMDL, DAX, dashboard PBIR/PBIP
+- **Git**: quản lý phiên bản
