@@ -182,28 +182,28 @@ Không có `Dim_Region` vì `branch` = kho/gian hàng, không đủ dữ liệu 
 >
 > **Pair Priority Score** = `lift × ln(pair_order_count)`. Kết hợp cả độ mạnh liên kết (lift) lẫn khối lượng mẫu (pair_order_count): 1 cặp lift cao nhưng chỉ xảy ra ở vài đơn sẽ bị xếp hạng thấp hơn 1 cặp lift vừa phải nhưng lặp lại ở hàng chục đơn.
 
-**Số liệu quan sát được:**
+**Insight từ dữ liệu:**
 
-- Doanh thu net **₫1,92 tỷ**, gross **₫2,89 tỷ**; huỷ đơn "ăn" **₫878 triệu** doanh thu ròng, tương ứng **27,3%** tổng số đơn (1.614/5.908 đơn).
-- Huỷ đơn dồn vào 2 kênh Affiliate (**27,3%**) và Facebook (**28,0%**), cao hơn hẳn Direct (**25,8%**); tỷ lệ huỷ theo tháng dao động mạnh **10,5%–35,4%**, đỉnh vào tháng 3 và tháng 5.
-- Đào sâu 2 đỉnh này theo kênh, danh mục, thanh toán, ngày trong tuần và tỉnh/thành thì thấy khác nhau: đỉnh tháng 5 có lý do thật, do Hồ Chí Minh (thị trường lớn nhất) tự tăng tỷ lệ huỷ lên **44,2%** và kéo cả nước theo; còn đỉnh tháng 3 tăng rải đều ở gần như mọi kênh/tỉnh/nhóm hàng cùng lúc, không quy được về 1 nguyên nhân cụ thể nào, nhiều khả năng chỉ là nhiễu ngẫu nhiên của bộ dữ liệu synthetic chứ không phải vấn đề kinh doanh thật.
-- Basket Size trung bình chỉ **2,47** sản phẩm/đơn; **44,0%** đơn chỉ mua đúng 1 sản phẩm, cho thấy dư địa cross-sell còn lớn ở phần lớn đơn hàng.
-- Đơn có quà tặng có AOV cao hơn **30%** so với đơn không quà (**₫552K** so với **₫425K**), nhưng điều tra ngược dữ liệu gốc cho thấy việc gán quà gần như ngẫu nhiên, nên chênh lệch này nhiều khả năng là tương quan giả chứ không phải hiệu ứng thật của chương trình quà tặng.
-- Ở cấp phân nhóm, cặp mạnh nhất là **Color × Treatment** (lift 10,11, Pair Priority Score cao nhất trong nhóm này) nhưng khối lượng mẫu nhỏ chỉ 15 đơn.
-- Ở cấp sản phẩm cụ thể, cặp **Dầu gội ngăn × Dầu xả ngăn** vượt trội hẳn: confidence **100%** (mua dầu xả thì luôn kèm dầu gội), lift **104,73**, Pair Priority Score **328,39**, cao gấp gần **10 lần** cặp mạnh nhất ở cấp phân nhóm (33,84).
+- Doanh thu net đạt **₫1,92 tỷ**, gross **₫2,89 tỷ**. Đơn huỷ chiếm **27,3%** tổng số đơn (1.614/5.908 đơn), tương ứng **₫878 triệu** doanh thu ròng mất đi.
+- Tỷ lệ huỷ ở kênh Affiliate là **27,3%** và Facebook là **28,0%**, trong khi Direct chỉ **25,8%**. Tỷ lệ huỷ theo tháng dao động từ **10,5%** đến **35,4%**, cao nhất vào tháng 3 và tháng 5.
+- Tháng 5, tỷ lệ huỷ tại Hồ Chí Minh (thị trường lớn nhất) tăng lên **44,2%**, đúng vào tháng tỷ lệ huỷ toàn quốc cũng đạt đỉnh. Tháng 3, tỷ lệ huỷ tăng đều ở hầu hết kênh, tỉnh và nhóm hàng cùng lúc, không tập trung ở một nơi cụ thể nào.
+- Trung bình mỗi đơn chỉ có **2,47** sản phẩm, và **44,0%** đơn chỉ mua đúng 1 sản phẩm.
+- Đơn có quà tặng có giá trị trung bình **₫552K**, cao hơn đơn không quà (**₫425K**) khoảng **30%**. Khi đối chiếu với dữ liệu gốc, quà tặng được gán cho đơn hàng không theo sản phẩm hay giá trị đơn cụ thể nào.
+- Ở cấp phân nhóm sản phẩm, Color và Treatment là hai nhóm có độ liên kết mạnh nhất (lift **10,11**), nhưng chỉ xuất hiện cùng nhau ở 15 đơn.
+- Ở cấp sản phẩm cụ thể, khách mua Dầu xả ngăn thì **100%** cũng mua Dầu gội ngăn trong cùng đơn (lift **104,73**). Đây là hai sản phẩm có độ liên kết mạnh nhất trong toàn bộ dữ liệu, điểm ưu tiên (**328,39**) cao gấp gần **10 lần** mức cao nhất ở cấp phân nhóm.
 
 **Đề xuất hành động:**
 
-1. Ưu tiên xử lý huỷ đơn ở kênh Affiliate và Facebook trước: đây là 2 kênh có tỷ lệ huỷ cao nhất, thu hẹp ở đây tác động tới phần lớn trong ₫878 triệu doanh thu đang bị mất.
-2. Với đỉnh huỷ đơn tháng 5, rà lại vận hành tại Hồ Chí Minh trước: tỷ lệ huỷ ở đây tự tăng lên 44,2%, đủ lớn để kéo cả nước theo. Với đỉnh tháng 3 thì không cần điều tra thêm, vì tăng rải đều khắp nơi chứ không quy được về 1 nguyên nhân cụ thể, nhiều khả năng chỉ là nhiễu dữ liệu chứ không phải vấn đề vận hành thật.
-3. Đưa cặp "Dầu gội ngăn × Dầu xả ngăn" thành gợi ý mua kèm mặc định đầu tiên khi triển khai cross-sell: confidence 100%, lift vượt trội gấp gần 10 lần cặp tốt nhất ở cấp phân nhóm, rủi ro thấp nhất khi thử nghiệm.
-4. Nhắm chiến dịch cross-sell vào các phân nhóm có Attach Rate thấp nhất (Face, Face Care) trước, thay vì các nhóm đã bão hoà (Cleansing, Lip Care đã > 97%): biên độ tăng giỏ hàng ở nhóm thấp lớn hơn nhiều.
-5. Không dùng chương trình quà tặng hiện tại làm đòn bẩy AOV có chủ đích cho tới khi thiết kế lại rule gắn quà theo ngưỡng giá trị/sản phẩm cụ thể: mức +30% AOV quan sát được hiện tại nhiều khả năng không phải hiệu ứng nhân quả.
+1. Ưu tiên rà soát vận hành ở kênh Affiliate và Facebook trước: đây là hai kênh có tỷ lệ huỷ đơn cao nhất trong số các kênh hiện có.
+2. Với tháng 5, kiểm tra lại vận hành giao hàng tại Hồ Chí Minh trước: tỷ lệ huỷ ở đây tăng rõ rệt đúng vào tháng tỷ lệ huỷ toàn quốc cũng tăng. Với tháng 3, không cần điều tra thêm, vì mức tăng rải đều khắp các kênh, tỉnh và nhóm hàng, không tập trung ở một điểm cụ thể.
+3. Khi khách thêm Dầu gội ngăn vào giỏ hàng, gợi ý thêm Dầu xả ngăn ngay lúc đó: đây là hai sản phẩm có tỷ lệ mua cùng nhau cao nhất trong toàn bộ dữ liệu.
+4. Tập trung gợi ý mua kèm vào nhóm Face và Face Care trước: đây là hai nhóm có tỷ lệ khách mua thêm sản phẩm khác thấp nhất. Nhóm Cleansing và Lip Care đã có tỷ lệ mua kèm cao, không cần ưu tiên thêm.
+5. Không dùng chương trình quà tặng hiện tại để tăng giá trị đơn hàng có chủ đích, cho tới khi thiết kế lại cách gán quà theo giá trị đơn hoặc theo sản phẩm cụ thể: hiện quà đang được gán không theo quy luật nào.
 
 ## Tech Stack
 
-- **SQL Server**: T-SQL, stored procedure, MERGE, dynamic SQL cho Medallion Bronze/Silver/Gold
-- **Python / pandas / Jupyter**: ETL Raw Excel → Cleaned CSV
-- **Ollama**: chạy LLM local (`qwen2.5:7b-instruct`) để map sản phẩm sang category
-- **Power BI Desktop**: semantic model TMDL, DAX, dashboard PBIR/PBIP
-- **Git**: quản lý phiên bản
+- SQL Server
+- Python / pandas / Jupyter
+- Ollama
+- Power BI Desktop
+- Git
