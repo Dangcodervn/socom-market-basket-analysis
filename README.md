@@ -184,13 +184,12 @@ Không có `Dim_Region` vì `branch` = kho/gian hàng, không đủ dữ liệu 
 
 **Insight từ dữ liệu:**
 
-- Doanh thu net đạt **₫1,92 tỷ**, gross **₫2,89 tỷ**. Đơn huỷ chiếm **27,3%** tổng số đơn (1.614/5.908 đơn), tương ứng **₫878 triệu** doanh thu ròng mất đi.
-- Tỷ lệ huỷ ở kênh Affiliate là **27,3%** và Facebook là **28,0%**, trong khi Direct chỉ **25,8%**. Tỷ lệ huỷ theo tháng dao động từ **10,5%** đến **35,4%**, cao nhất vào tháng 3 và tháng 5.
-- Tháng 5, tỷ lệ huỷ tại Hồ Chí Minh (thị trường lớn nhất) tăng lên **44,2%**, đúng vào tháng tỷ lệ huỷ toàn quốc cũng đạt đỉnh. Tháng 3, tỷ lệ huỷ tăng đều ở hầu hết kênh, tỉnh và nhóm hàng cùng lúc, không tập trung ở một nơi cụ thể nào.
-- Trung bình mỗi đơn chỉ có **2,47** sản phẩm, và **44,0%** đơn chỉ mua đúng 1 sản phẩm.
-- Đơn có quà tặng có giá trị trung bình **₫552K**, cao hơn đơn không quà (**₫425K**) khoảng **30%**. Khi đối chiếu với dữ liệu gốc, quà tặng được gán cho đơn hàng không theo sản phẩm hay giá trị đơn cụ thể nào.
-- Ở cấp phân nhóm sản phẩm, Color và Treatment là hai nhóm có độ liên kết mạnh nhất (lift **10,11**), nhưng chỉ xuất hiện cùng nhau ở 15 đơn.
-- Ở cấp sản phẩm cụ thể, khách mua Dầu xả ngăn thì **100%** cũng mua Dầu gội ngăn trong cùng đơn (lift **104,73**). Đây là hai sản phẩm có độ liên kết mạnh nhất trong toàn bộ dữ liệu, điểm ưu tiên (**328,39**) cao gấp gần **10 lần** mức cao nhất ở cấp phân nhóm.
+- Huỷ đơn "ăn" **₫878 triệu** doanh thu ròng (**27,3%** số đơn), tập trung nhiều nhất ở Affiliate (**27,3%**) và Facebook (**28,0%**).
+- Tháng 3 vừa huỷ nhiều nhất (**35,4%**) vừa doanh thu cao nhất năm: 2 chỉ số này khác loại (tỷ lệ và số tuyệt đối) nên cùng tăng khi tổng lượng đơn trong tháng tăng, không mâu thuẫn nhau.
+- Đỉnh huỷ tháng 5 có gốc rõ: một mình Hồ Chí Minh tăng lên **44,2%** và kéo cả nước theo. Đỉnh tháng 3 rải đều khắp nơi, không quy được về đâu.
+- **44,0%** đơn chỉ mua 1 sản phẩm: phần lớn đơn hàng chưa từng được gợi ý mua kèm.
+- Quà tặng không phải nguyên nhân khiến AOV cao hơn **30%**: quà bị gán ngẫu nhiên, nhiều khả năng khách chi tiêu cao tình cờ trúng quà nhiều hơn, chứ không phải ngược lại.
+- Dầu gội ngăn và Dầu xả ngăn là cặp đáng tin nhất để gợi ý mua kèm: mua chắc chắn đi cùng nhau (**100%**) và đủ số đơn để không phải ngẫu nhiên.
 
 **Đề xuất hành động:**
 
