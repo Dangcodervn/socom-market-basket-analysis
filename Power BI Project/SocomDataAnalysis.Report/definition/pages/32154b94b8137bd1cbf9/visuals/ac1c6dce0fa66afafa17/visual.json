@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "ac1c6dce0fa66afafa17",
   "position": {
     "x": 1079.6307692307691,
@@ -665,6 +665,76 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "ce3387c8b1e659024355",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold Dim_Order"
+              }
+            },
+            "Property": "order_id"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5c40338a30e11d4a8eae",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold Dim_Order"
+              }
+            },
+            "Property": "traffic_source"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6076d9308974521e65e9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold Dim_Province"
+              }
+            },
+            "Property": "province_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "41a94fe870485ad6a078",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Gross Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "60c545b12839d7a2901d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Order Line Count"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

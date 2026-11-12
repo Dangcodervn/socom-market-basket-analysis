@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "d46fa42571a184242c02",
   "position": {
     "x": 909.78461538461534,
@@ -669,6 +669,20 @@
             }
           ]
         }
+      },
+      {
+        "name": "112182255016b03d9c24",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Net Revenue (Tỷ)"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

@@ -1,0 +1,6 @@
+5115f199593e922dc67c: drillFilterOtherVisuals=NOT SET (default true) | fields=['gold Dim_Date.month_name', '_Measures.Net Revenue (Triệu)', '_Measures.Net Revenue MoM %'] | syncGroup=None
+5d8752d05a95ca800038: drillFilterOtherVisuals=NOT SET (default true) | fields=['_Measures.Net Revenue (Tỷ)'] | syncGroup=None
+dfe23a16542c53da9f54: drillFilterOtherVisuals=NOT SET (default true) | fields=['_Measures.Completed Orders'] | syncGroup=None
+ff0413911c5cfed54674: drillFilterOtherVisuals=NOT SET (default true) | fields=['_Measures.AOV (Nghìn)'] | syncGroup=None
+a75f5d797b580125cf70: drillFilterOtherVisuals=NOT SET (default true) | fields=['_Measures.Cancel Rate'] | syncGroup=None
+13a80beac7dd43b9fa6e: drillFilterOtherVisuals=NOT SET (default true) | fields=['_Measures.Customers'] | syncGroup=None

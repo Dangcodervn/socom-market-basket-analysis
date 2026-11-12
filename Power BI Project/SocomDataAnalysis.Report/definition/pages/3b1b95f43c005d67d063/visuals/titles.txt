@@ -1,0 +1,26 @@
+0b00dc6eb8b046437b71\ | areaChart |  | 
+0d43edf23b88c6199b8e\ | waterfallChart | 'Từ Gross đến Net: chiết khấu & đơn hủy' | 
+0f31e3a53d87ecac073b\ | shape | 'Số đơn hoàn thành' | 
+13a80beac7dd43b9fa6e\ | cardVisual |  | 
+1ebbf2b4ea4065140d3d\ | areaChart |  | 
+45415a5c096be807800d\ | shape | 'Tỷ kệ huỷ đơn' | 
+4d216f407f53080acdad\ | slicer |  | gold Dim_Order.traffic_source
+5115f199593e922dc67c\ | lineClusteredColumnComboChart | 'Doanh thu net theo tháng' | 
+5d8752d05a95ca800038\ | cardVisual |  | 
+65437f12b7b58fb4b11c\ | areaChart |  | 
+6763a1e3a007a0049c80\ | shape | 'Giá trị trung bình mỗi đơn' | 
+67eea78f9aa856da7403\ | shape | 'Doanh thu thuần' | 
+99687713221b8e068486\ | areaChart |  | 
+9dc4dc8566948ecdb13b\ | shape | 'Tổng khách hàng' | 
+a75f5d797b580125cf70\ | cardVisual |  | 
+a8a88a644337194c06d8\ | actionButton |  | 
+b22131b9143c1958e913\ | areaChart |  | 
+b7f240c09e0329ef274b\ | shapeMap | 'Doanh thu net theo tỉnh/thành' | 
+bc697840001eab7dc4e0\ | lineClusteredColumnComboChart | 'AOV & số đơn hoàn tất theo kênh' | 
+d0ee6d79a1111d314c3e\ | slicer |  | gold Dim_Province.province_name
+d46fa42571a184242c02\ | donutChart | 'Doanh thu theo nhóm' | 
+dfe23a16542c53da9f54\ | cardVisual | '' | 
+e8647825e9c2e6f64c52\ | shape |  | 
+f7e54f5495cff9c8d738\ | slicer |  | gold Dim_Category.sub_category_name
+fbfa59670ca02a2cc690\ | pageNavigator |  | 
+ff0413911c5cfed54674\ | cardVisual |  | 

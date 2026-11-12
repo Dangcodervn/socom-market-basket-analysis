@@ -35,7 +35,7 @@
     {
       "source": "7491b5a491c06a03a6f3",
       "target": "6d0e423ad660bd8e4d0a",
-      "type": "NoFilter"
+      "type": "DataFilter"
     },
     {
       "source": "2774929f02aa2258eadf",
@@ -51,6 +51,16 @@
       "source": "ac1c6dce0fa66afafa17",
       "target": "6d0e423ad660bd8e4d0a",
       "type": "NoFilter"
+    },
+    {
+      "source": "7491b5a491c06a03a6f3",
+      "target": "e0552f0ad07c408e3c83",
+      "type": "DataFilter"
+    },
+    {
+      "source": "7491b5a491c06a03a6f3",
+      "target": "d914a6d339fc5e3e772e",
+      "type": "DataFilter"
     }
   ]
 }

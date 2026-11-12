@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "b8ef3efd18168e3941cc",
   "position": {
     "x": 22.153846153846153,
@@ -651,6 +651,62 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "aedc829a0c7029104aaa",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold Dim_Category"
+              }
+            },
+            "Property": "sub_category_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "43e53a4902b284761ad2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AOV"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "362185e7bd2b2470c194",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Completed Orders"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "53fa6725a976b86b3d09",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cross-sell Attach Rate"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

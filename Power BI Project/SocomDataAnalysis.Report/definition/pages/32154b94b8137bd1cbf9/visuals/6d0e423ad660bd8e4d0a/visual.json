@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "6d0e423ad660bd8e4d0a",
   "position": {
     "x": 22.153846153846153,
@@ -398,5 +398,51 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6ff54373908549a2890a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cancel Rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "358970024921820be477",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Gross Revenue Lost"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5e4a067006ccb78a2e50",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Cancelled Orders"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

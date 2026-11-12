@@ -35,22 +35,22 @@
     {
       "source": "5115f199593e922dc67c",
       "target": "dfe23a16542c53da9f54",
-      "type": "NoFilter"
+      "type": "DataFilter"
     },
     {
       "source": "5115f199593e922dc67c",
       "target": "ff0413911c5cfed54674",
-      "type": "NoFilter"
+      "type": "DataFilter"
     },
     {
       "source": "5115f199593e922dc67c",
       "target": "a75f5d797b580125cf70",
-      "type": "NoFilter"
+      "type": "DataFilter"
     },
     {
       "source": "5115f199593e922dc67c",
       "target": "13a80beac7dd43b9fa6e",
-      "type": "NoFilter"
+      "type": "DataFilter"
     },
     {
       "source": "d46fa42571a184242c02",
